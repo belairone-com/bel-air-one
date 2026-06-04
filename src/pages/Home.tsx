@@ -134,7 +134,7 @@ export default function Home() {
         </div>
         <div className="absolute inset-x-0 top-[31%] z-10 flex justify-center px-6 md:top-[34%]">
           <p className="text-[11px] md:text-[13px] uppercase tracking-[0.34em] text-white/80 font-light">
-            AZUR — SUMMER 2026
+            JOUR BLANC 26-27
           </p>
         </div>
 
