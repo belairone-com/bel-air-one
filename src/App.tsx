@@ -23,6 +23,51 @@ function ScrollToTop() {
   return null;
 }
 
+function ContactSuccessNotice() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const messageSent = params.get('contact') === 'envoye';
+
+    if (!messageSent) return;
+
+    setIsVisible(true);
+    const cleanUrlTimer = window.setTimeout(() => {
+      navigate('/', { replace: true });
+    }, 250);
+    const hideTimer = window.setTimeout(() => {
+      setIsVisible(false);
+    }, 6500);
+
+    return () => {
+      window.clearTimeout(cleanUrlTimer);
+      window.clearTimeout(hideTimer);
+    };
+  }, [location.search, navigate]);
+
+  return (
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ opacity: 0, y: -18 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -18 }}
+          transition={{ duration: 0.35, ease: 'easeOut' }}
+          className="fixed left-1/2 top-20 z-[80] w-[calc(100%-32px)] max-w-[520px] -translate-x-1/2 border border-[#19110b]/15 bg-[#fbfaf7] px-6 py-5 text-center shadow-[0_20px_60px_rgba(25,17,11,0.08)]"
+        >
+          <p className="text-[10px] uppercase tracking-[0.28em] text-[#8a8278]">Message envoyé</p>
+          <p className="mt-3 font-editorial text-xl text-[#19110b]">
+            Votre message a bien été envoyé.
+          </p>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -305,6 +350,7 @@ export default function App() {
       <AuthProvider>
         <Router>
           <ScrollToTop />
+          <ContactSuccessNotice />
           <AuthGate>
             <div className="min-h-screen flex flex-col">
               <Navbar />

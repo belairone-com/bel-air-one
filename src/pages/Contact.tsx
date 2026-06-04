@@ -28,12 +28,12 @@ export default function Contact() {
             <input type="hidden" name="_subject" value="Nouvelle demande BEL AIR ONE" />
             <input type="hidden" name="_template" value="table" />
             <input type="hidden" name="_captcha" value="false" />
-            <input type="hidden" name="_next" value="https://www.belairone.com/contact" />
+            <input type="hidden" name="_next" value="https://www.belairone.com/?contact=envoye" />
 
             <label className="block">
               <span className="block text-[10px] uppercase tracking-[0.24em] text-[#8a8278]">Nom</span>
               <input
-                name="Nom"
+                name="name"
                 required
                 className="mt-3 w-full border-b border-[#19110b]/25 bg-transparent py-4 outline-none transition-colors focus:border-[#19110b]"
                 autoComplete="name"
@@ -43,7 +43,7 @@ export default function Contact() {
             <label className="block">
               <span className="block text-[10px] uppercase tracking-[0.24em] text-[#8a8278]">Email</span>
               <input
-                name="Email"
+                name="email"
                 type="email"
                 required
                 className="mt-3 w-full border-b border-[#19110b]/25 bg-transparent py-4 outline-none transition-colors focus:border-[#19110b]"
@@ -54,7 +54,7 @@ export default function Contact() {
             <label className="block">
               <span className="block text-[10px] uppercase tracking-[0.24em] text-[#8a8278]">Message</span>
               <textarea
-                name="Message"
+                name="message"
                 required
                 rows={6}
                 className="mt-3 w-full resize-none border-b border-[#19110b]/25 bg-transparent py-4 outline-none transition-colors focus:border-[#19110b]"
