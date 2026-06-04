@@ -286,12 +286,12 @@ function Footer() {
         </a>
         <p className="text-[11px] uppercase tracking-[0.28em] text-white/45 mb-5">Instagram</p>
         <a
-          href="https://instagram.com/belairone"
+          href="https://instagram.com/belair.one"
           target="_blank"
           rel="noreferrer"
           className="text-sm md:text-base tracking-[0.12em] text-white hover:text-white/70 transition-colors"
         >
-          @belairone
+          @belair.one
         </a>
       </div>
     </footer>
