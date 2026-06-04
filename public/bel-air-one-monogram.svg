@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1200" viewBox="0 0 900 1200">
+  <rect width="900" height="1200" fill="#fbfaf7"/>
+  <defs>
+    <g id="one" fill="none" stroke="#2fb0ff" stroke-width="2" stroke-linecap="square">
+      <path d="M28 0 0 34"/>
+      <path d="M72 0 100 34"/>
+      <path d="M28 100 0 66"/>
+      <path d="M72 100 100 66"/>
+      <path d="M38 20h24l14 14v32L62 80H38L24 66V34z"/>
+      <path d="M45 32h10l9 9v18l-9 9H45l-9-9V41z"/>
+    </g>
+    <g id="wing" fill="#48bfff">
+      <path d="M26 24c17-7 28-18 36-31-1 16-9 29-24 39 13-2 23-9 31-20-3 16-13 27-30 34 11 1 21-2 31-9-8 14-21 23-39 25-10 1-17 5-22 12 1-17 7-27 17-50z" opacity=".95"/>
+      <path d="M12 57c8-2 15-1 20 4 6 5 8 12 8 20-8-9-17-12-28-9z"/>
+      <text x="20" y="78" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#48bfff">B</text>
+    </g>
+  </defs>
+  <g opacity=".98">
+    <use href="#one" x="-38" y="-30"/>
+    <use href="#one" x="120" y="-30"/>
+    <use href="#one" x="280" y="-30"/>
+    <use href="#one" x="440" y="-30"/>
+    <use href="#one" x="600" y="-30"/>
+    <use href="#one" x="760" y="-30"/>
+
+    <use href="#one" x="40" y="120"/>
+    <use href="#one" x="200" y="120"/>
+    <use href="#one" x="360" y="120"/>
+    <use href="#one" x="520" y="120"/>
+    <use href="#one" x="680" y="120"/>
+    <use href="#one" x="840" y="120"/>
+
+    <use href="#one" x="-38" y="270"/>
+    <use href="#one" x="120" y="270"/>
+    <use href="#one" x="280" y="270"/>
+    <use href="#one" x="440" y="270"/>
+    <use href="#one" x="600" y="270"/>
+    <use href="#one" x="760" y="270"/>
+
+    <use href="#one" x="40" y="420"/>
+    <use href="#one" x="200" y="420"/>
+    <use href="#one" x="360" y="420"/>
+    <use href="#one" x="520" y="420"/>
+    <use href="#one" x="680" y="420"/>
+    <use href="#one" x="840" y="420"/>
+
+    <use href="#one" x="-38" y="570"/>
+    <use href="#one" x="120" y="570"/>
+    <use href="#one" x="280" y="570"/>
+    <use href="#one" x="440" y="570"/>
+    <use href="#one" x="600" y="570"/>
+    <use href="#one" x="760" y="570"/>
+
+    <use href="#one" x="40" y="720"/>
+    <use href="#one" x="200" y="720"/>
+    <use href="#one" x="360" y="720"/>
+    <use href="#one" x="520" y="720"/>
+    <use href="#one" x="680" y="720"/>
+    <use href="#one" x="840" y="720"/>
+
+    <use href="#one" x="-38" y="870"/>
+    <use href="#one" x="120" y="870"/>
+    <use href="#one" x="280" y="870"/>
+    <use href="#one" x="440" y="870"/>
+    <use href="#one" x="600" y="870"/>
+    <use href="#one" x="760" y="870"/>
+
+    <use href="#one" x="40" y="1020"/>
+    <use href="#one" x="200" y="1020"/>
+    <use href="#one" x="360" y="1020"/>
+    <use href="#one" x="520" y="1020"/>
+    <use href="#one" x="680" y="1020"/>
+    <use href="#one" x="840" y="1020"/>
+  </g>
+  <use href="#wing" x="128" y="86"/>
+  <use href="#wing" x="520" y="514"/>
+</svg>
