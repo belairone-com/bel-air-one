@@ -10,12 +10,15 @@ export default function AuthScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setMessage('');
+    setIsSubmitting(true);
 
-    const result = mode === 'register' ? register({ name, email, password }) : login(email, password);
+    const result = mode === 'register' ? await register({ name, email, password }) : await login(email, password);
+    setIsSubmitting(false);
     if (!result.ok) {
       setMessage(result.message ?? 'Une erreur est survenue.');
     }
@@ -93,8 +96,8 @@ export default function AuthScreen() {
             </motion.p>
           )}
 
-          <button className="w-full bg-[#19110b] text-white py-4 mt-6 text-[11px] uppercase tracking-[0.24em] hover:bg-black transition-colors">
-            {mode === 'register' ? 'Créer mon compte' : 'Entrer'}
+          <button disabled={isSubmitting} className="w-full bg-[#19110b] text-white py-4 mt-6 text-[11px] uppercase tracking-[0.24em] hover:bg-black transition-colors disabled:cursor-wait disabled:opacity-60">
+            {isSubmitting ? 'Veuillez patienter' : mode === 'register' ? 'Créer mon compte' : 'Entrer'}
           </button>
         </form>
 

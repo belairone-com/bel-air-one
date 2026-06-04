@@ -319,6 +319,7 @@ export default function App() {
                   <Route path="/first-class" element={<FirstClass />} />
                   <Route path="/maison" element={<Maison />} />
                   <Route path="/administration" element={<AdminPanel />} />
+                  <Route path="/belaironeadmin" element={<AdminPanel />} />
                   <Route path="/product/:id" element={<ProductDetail />} />
                 </Routes>
               </main>
