@@ -5,15 +5,15 @@ import { useEffect } from 'react';
 import { useAuth } from '../auth/AuthContext';
 
 export default function AdminPanel() {
-  const { currentUser, users, isLoadingUsers, refreshUsers, approveVip, revokeVip, deleteUser } = useAuth();
+  const { currentUser, isAdminAccount, users, isLoadingUsers, refreshUsers, approveVip, revokeVip, deleteUser } = useAuth();
 
   useEffect(() => {
-    if (currentUser?.role === 'admin') {
+    if (isAdminAccount) {
       void refreshUsers();
     }
-  }, [currentUser?.id]);
+  }, [currentUser?.id, isAdminAccount]);
 
-  if (currentUser?.role !== 'admin') {
+  if (!isAdminAccount) {
     return <Navigate to="/" replace />;
   }
 

@@ -31,7 +31,7 @@ function Navbar() {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const location = useLocation();
   const navigate = useNavigate();
-  const { currentUser, logout } = useAuth();
+  const { currentUser, isAdminAccount, logout } = useAuth();
   const isHomePage = location.pathname === '/';
   const isFirstClassPage = location.pathname === '/first-class';
 
@@ -69,7 +69,7 @@ function Navbar() {
     { label: 'Accessoires', to: '/accessoires' },
     { label: 'First Class', to: '/first-class' },
     { label: 'La Maison', to: '/maison' },
-    ...(currentUser?.role === 'admin' ? [{ label: 'Administration', to: '/administration' }] : []),
+    ...(isAdminAccount ? [{ label: 'Administration', to: '/administration' }] : []),
   ];
   const searchableProducts = [
     { name: 'Malle Bel Air One', to: '/product/malle-bel-air-one' },

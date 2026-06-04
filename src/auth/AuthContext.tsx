@@ -21,6 +21,7 @@ type RegisterInput = {
 type AuthContextValue = {
   users: MaisonUser[];
   currentUser: MaisonUser | null;
+  isAdminAccount: boolean;
   guestAccess: boolean;
   isLoadingUsers: boolean;
   register: (input: RegisterInput) => Promise<{ ok: boolean; message?: string }>;
@@ -46,6 +47,8 @@ const adminUser: MaisonUser = {
   vip: true,
   createdAt: new Date().toISOString(),
 };
+
+const ADMIN_EMAIL = 'admin@belairone.ch';
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
@@ -112,9 +115,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     () => users.find((user) => user.id === currentUserId) ?? null,
     [users, currentUserId]
   );
+  const isAdminAccount = currentUser?.role === 'admin' && currentUser.email === ADMIN_EMAIL;
 
   const refreshUsers = async () => {
-    if (!supabase || currentUser?.role !== 'admin') return;
+    if (!supabase || !isAdminAccount) return;
 
     setIsLoadingUsers(true);
     const { data, error } = await supabase.rpc('site_account_list', {
@@ -229,7 +233,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const updateVip = async (userId: string, vip: boolean) => {
-    if (currentUser?.role !== 'admin') return;
+    if (!isAdminAccount || !currentUser) return;
 
     if (supabase) {
       await supabase.rpc('site_account_set_vip', {
@@ -247,7 +251,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const revokeVip = (userId: string) => updateVip(userId, false);
 
   const deleteUser = async (userId: string) => {
-    if (currentUser?.role !== 'admin') return;
+    if (!isAdminAccount || !currentUser) return;
 
     if (supabase) {
       await supabase.rpc('site_account_delete', {
@@ -261,7 +265,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ users, currentUser, guestAccess, isLoadingUsers, register, login, continueAsGuest, logout, refreshUsers, approveVip, revokeVip, deleteUser }}>
+    <AuthContext.Provider value={{ users, currentUser, isAdminAccount, guestAccess, isLoadingUsers, register, login, continueAsGuest, logout, refreshUsers, approveVip, revokeVip, deleteUser }}>
       {children}
     </AuthContext.Provider>
   );
