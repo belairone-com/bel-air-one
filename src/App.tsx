@@ -10,6 +10,7 @@ import FirstClass from './pages/FirstClass';
 import AdminPanel from './pages/AdminPanel';
 import CategoryPage from './pages/CategoryPage';
 import Maison from './pages/Maison';
+import Contact from './pages/Contact';
 import { AuthProvider, useAuth } from './auth/AuthContext';
 import AuthGate from './components/AuthGate';
 import SiteAccessGate from './components/SiteAccessGate';
@@ -137,9 +138,9 @@ function Navbar() {
 
           {/* Right side — Nous Contacter + icons */}
           <div className={`flex items-center gap-5 ${textColor} transition-colors duration-300`}>
-            <span className="hidden lg:inline text-[13px] tracking-[0.04em] hover:opacity-60 transition-opacity cursor-pointer">
+            <Link to="/contact" className="hidden lg:inline text-[13px] tracking-[0.04em] hover:opacity-60 transition-opacity">
               Nous Contacter
-            </span>
+            </Link>
             <button className="hidden md:block hover:opacity-60 transition-opacity">
               <Heart size={20} strokeWidth={1.3} />
             </button>
@@ -279,10 +280,10 @@ function Footer() {
           Pour toute demande privée :
         </p>
         <a
-          href="mailto:contact@belairone.com"
+          href="/contact"
           className="block text-sm md:text-base tracking-[0.12em] text-white hover:text-white/70 transition-colors mb-16"
         >
-          contact@belairone.com
+          belairone.ch@gmail.com
         </a>
         <p className="text-[11px] uppercase tracking-[0.28em] text-white/45 mb-5">Instagram</p>
         <a
@@ -318,6 +319,7 @@ export default function App() {
                   <Route path="/accessoires" element={<CategoryPage category="accessoires" />} />
                   <Route path="/first-class" element={<FirstClass />} />
                   <Route path="/maison" element={<Maison />} />
+                  <Route path="/contact" element={<Contact />} />
                   <Route path="/administration" element={<AdminPanel />} />
                   <Route path="/belaironeadmin" element={<AdminPanel />} />
                   <Route path="/product/:id" element={<ProductDetail />} />
