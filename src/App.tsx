@@ -11,6 +11,7 @@ import AdminPanel from './pages/AdminPanel';
 import CategoryPage from './pages/CategoryPage';
 import Maison from './pages/Maison';
 import Contact from './pages/Contact';
+import Archives from './pages/Archives';
 import { AuthProvider, useAuth } from './auth/AuthContext';
 import AuthGate from './components/AuthGate';
 import SiteAccessGate from './components/SiteAccessGate';
@@ -114,6 +115,7 @@ function Navbar() {
     { label: 'Robes', to: '/robes' },
     { label: 'Accessoires', to: '/accessoires' },
     { label: 'First Class', to: '/first-class' },
+    { label: 'Les Archives', to: '/archives' },
     { label: 'La Maison', to: '/maison' },
     ...(isAdminAccount ? [{ label: 'Administration', to: '/administration' }] : []),
   ];
@@ -364,6 +366,7 @@ export default function App() {
                   <Route path="/robes" element={<CategoryPage category="robes" />} />
                   <Route path="/accessoires" element={<CategoryPage category="accessoires" />} />
                   <Route path="/first-class" element={<FirstClass />} />
+                  <Route path="/archives" element={<Archives />} />
                   <Route path="/maison" element={<Maison />} />
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/administration" element={<AdminPanel />} />
