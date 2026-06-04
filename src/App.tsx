@@ -12,6 +12,7 @@ import CategoryPage from './pages/CategoryPage';
 import Maison from './pages/Maison';
 import { AuthProvider, useAuth } from './auth/AuthContext';
 import AuthGate from './components/AuthGate';
+import SiteAccessGate from './components/SiteAccessGate';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -299,31 +300,33 @@ function Footer() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <ScrollToTop />
-        <AuthGate>
-          <div className="min-h-screen flex flex-col">
-            <Navbar />
-            <main className="flex-grow">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/pret-a-porter" element={<CategoryPage category="pret-a-porter" />} />
-                <Route path="/pret-a-porter/homme" element={<CategoryPage category="pret-a-porter" audience="homme" />} />
-                <Route path="/pret-a-porter/femme" element={<CategoryPage category="pret-a-porter" audience="femme" />} />
-                <Route path="/maroquinerie" element={<CategoryPage category="maroquinerie" />} />
-                <Route path="/robes" element={<CategoryPage category="robes" />} />
-                <Route path="/accessoires" element={<CategoryPage category="accessoires" />} />
-                <Route path="/first-class" element={<FirstClass />} />
-                <Route path="/maison" element={<Maison />} />
-                <Route path="/administration" element={<AdminPanel />} />
-                <Route path="/product/:id" element={<ProductDetail />} />
-              </Routes>
-            </main>
-            <Footer />
-          </div>
-        </AuthGate>
-      </Router>
-    </AuthProvider>
+    <SiteAccessGate>
+      <AuthProvider>
+        <Router>
+          <ScrollToTop />
+          <AuthGate>
+            <div className="min-h-screen flex flex-col">
+              <Navbar />
+              <main className="flex-grow">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/pret-a-porter" element={<CategoryPage category="pret-a-porter" />} />
+                  <Route path="/pret-a-porter/homme" element={<CategoryPage category="pret-a-porter" audience="homme" />} />
+                  <Route path="/pret-a-porter/femme" element={<CategoryPage category="pret-a-porter" audience="femme" />} />
+                  <Route path="/maroquinerie" element={<CategoryPage category="maroquinerie" />} />
+                  <Route path="/robes" element={<CategoryPage category="robes" />} />
+                  <Route path="/accessoires" element={<CategoryPage category="accessoires" />} />
+                  <Route path="/first-class" element={<FirstClass />} />
+                  <Route path="/maison" element={<Maison />} />
+                  <Route path="/administration" element={<AdminPanel />} />
+                  <Route path="/product/:id" element={<ProductDetail />} />
+                </Routes>
+              </main>
+              <Footer />
+            </div>
+          </AuthGate>
+        </Router>
+      </AuthProvider>
+    </SiteAccessGate>
   );
 }
