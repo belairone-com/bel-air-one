@@ -10,7 +10,7 @@ const categories = [
   },
   {
     title: "Maroquinerie",
-    image: "/images/malle-jour-blanc.jpg",
+    image: "/images/baul-bel-air-one-exacto.jpg",
     link: "/maroquinerie"
   },
   {
