@@ -73,24 +73,24 @@ export default function Archives() {
 
   return (
     <div className="min-h-screen bg-[#fbfaf7] text-[#342f2a] pt-[60px]">
-      <section className="px-6 py-24 md:px-10 md:py-32">
+      <section className="px-6 py-20 md:px-10 md:py-28">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
           className="mx-auto max-w-[980px] text-center"
         >
-          <h1 className="text-4xl font-medium tracking-[0.28em] md:text-7xl">
+          <h1 className="text-3xl font-medium tracking-[0.26em] md:text-5xl">
             LES ARCHIVES DE LA MAISON
           </h1>
-          <p className="mx-auto mt-16 max-w-3xl font-editorial text-2xl leading-relaxed text-[#746d66] md:text-4xl">
+          <p className="mx-auto mt-12 max-w-3xl font-editorial text-xl leading-relaxed text-[#746d66] md:text-3xl">
             Chaque création de BEL AIR ONE possède son propre numéro d'archive.
           </p>
-          <p className="mx-auto mt-14 max-w-4xl text-lg leading-loose tracking-[0.08em] text-[#837c74] md:text-2xl">
+          <p className="mx-auto mt-10 max-w-4xl text-base leading-loose tracking-[0.08em] text-[#837c74] md:text-xl">
             Les Archives de la Maison permettent de consulter l'enregistrement officiel d'une création et de confirmer son appartenance aux archives de BEL AIR ONE.
           </p>
 
-          <form onSubmit={handleSubmit} className="mx-auto mt-28 max-w-[620px]">
+          <form onSubmit={handleSubmit} className="mx-auto mt-24 max-w-[560px]">
             <input
               value={archiveCode}
               onChange={(event) => {
@@ -98,7 +98,7 @@ export default function Archives() {
                 setMessage('');
               }}
               placeholder="Numéro d'archive"
-              className="w-full border-b border-[#19110b] bg-transparent pb-7 text-center text-xl tracking-[0.22em] outline-none placeholder:text-[#aaa39a] md:text-2xl"
+              className="w-full border-b border-[#19110b] bg-transparent pb-6 text-center text-base tracking-[0.22em] outline-none placeholder:text-[#aaa39a] md:text-xl"
               autoComplete="off"
             />
             <button
