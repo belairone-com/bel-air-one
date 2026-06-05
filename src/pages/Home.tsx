@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
 
 const categories = [
   {
@@ -48,10 +47,8 @@ const jourBlancProducts = [
 ];
 
 export default function Home() {
-  const navigate = useNavigate();
-
   const handleCategoryClick = (path: string) => {
-    navigate(path);
+    window.dispatchEvent(new CustomEvent('belairone:navigate', { detail: { path } }));
   };
 
   return (

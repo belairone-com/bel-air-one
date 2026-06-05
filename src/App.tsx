@@ -36,6 +36,11 @@ const pageTransitionReveals = [
     duration: 1.4,
   },
 ];
+const pageTransitionDuration = 4000;
+
+function requestPageTransition(path: string) {
+  window.dispatchEvent(new CustomEvent('belairone:navigate', { detail: { path } }));
+}
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -46,19 +51,60 @@ function ScrollToTop() {
 }
 
 function PageTransitionOverlay() {
-  const { pathname } = useLocation();
-  const previousPath = useRef(pathname);
+  const navigate = useNavigate();
+  const timeoutRef = useRef<number | null>(null);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    if (previousPath.current === pathname) return;
+    const startTransition = (path: string) => {
+      const nextUrl = new URL(path, window.location.origin);
+      const currentUrl = new URL(window.location.href);
+      const nextPath = `${nextUrl.pathname}${nextUrl.search}${nextUrl.hash}`;
+      const currentPath = `${currentUrl.pathname}${currentUrl.search}${currentUrl.hash}`;
 
-    previousPath.current = pathname;
-    setIsVisible(true);
-    const timer = window.setTimeout(() => setIsVisible(false), 4000);
+      if (nextUrl.origin !== window.location.origin || nextPath === currentPath || isVisible) return;
 
-    return () => window.clearTimeout(timer);
-  }, [pathname]);
+      setIsVisible(true);
+      timeoutRef.current = window.setTimeout(() => {
+        navigate(nextPath);
+        setIsVisible(false);
+      }, pageTransitionDuration);
+    };
+
+    const handleDocumentClick = (event: MouseEvent) => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+
+      const anchor = target.closest('a[href]');
+      if (!anchor) return;
+
+      const href = anchor.getAttribute('href');
+      const linkTarget = anchor.getAttribute('target');
+      if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || linkTarget === '_blank') return;
+
+      const url = new URL(href, window.location.origin);
+      if (url.origin !== window.location.origin) return;
+
+      event.preventDefault();
+      startTransition(`${url.pathname}${url.search}${url.hash}`);
+    };
+
+    const handleRequestedNavigation = (event: Event) => {
+      const requestedPath = (event as CustomEvent<{ path: string }>).detail?.path;
+      if (requestedPath) startTransition(requestedPath);
+    };
+
+    document.addEventListener('click', handleDocumentClick, true);
+    window.addEventListener('belairone:navigate', handleRequestedNavigation);
+
+    return () => {
+      document.removeEventListener('click', handleDocumentClick, true);
+      window.removeEventListener('belairone:navigate', handleRequestedNavigation);
+      if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
+    };
+  }, [isVisible, navigate]);
 
   return (
     <AnimatePresence>
@@ -225,7 +271,7 @@ function Navbar() {
 
     if (query && result) {
       setIsSearchOpen(false);
-      navigate(result.to);
+      requestPageTransition(result.to);
       return;
     }
 
