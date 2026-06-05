@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 
 const categories = [
   {
@@ -48,76 +47,15 @@ const jourBlancProducts = [
   },
 ];
 
-const transitionReveals = [
-  {
-    word: 'ESMERALDA',
-    image: 'https://i.ibb.co/tP1sdM9W/Captura-de-pantalla-2026-05-27-a-la-s-18-16-09-1-removebg-preview.png',
-    delay: 0,
-    duration: 1.3,
-  },
-  {
-    word: 'ESMERALDA',
-    image: 'https://i.ibb.co/tP1sdM9W/Captura-de-pantalla-2026-05-27-a-la-s-18-16-09-1-removebg-preview.png',
-    delay: 1.3,
-    duration: 1.3,
-  },
-  {
-    word: 'AURORE',
-    image: 'https://i.ibb.co/gZbgXv5S/Captura-de-pantalla-2026-05-27-a-la-s-18-15-50-removebg-preview.png',
-    delay: 2.6,
-    duration: 1.4,
-  },
-];
-
 export default function Home() {
   const navigate = useNavigate();
-  const [transitionTarget, setTransitionTarget] = useState<string | null>(null);
 
   const handleCategoryClick = (path: string) => {
-    if (transitionTarget) return;
-    setTransitionTarget(path);
-    window.setTimeout(() => {
-      navigate(path);
-      setTransitionTarget(null);
-    }, 4000);
+    navigate(path);
   };
 
   return (
     <div className="bg-white">
-      {transitionTarget && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.25, ease: "easeOut" }}
-          className="fixed inset-0 z-[9999] pointer-events-none overflow-hidden bg-[#fbfaf7]"
-        >
-          <div className="absolute inset-0 bg-[#fbfaf7]" />
-
-          {transitionReveals.map((reveal) => (
-            <motion.div
-              key={`${reveal.word}-${reveal.delay}`}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: [0, 1, 1, 0], y: [16, 4, 12, 26] }}
-              transition={{
-                duration: reveal.duration,
-                delay: reveal.delay,
-                ease: [0.76, 0, 0.24, 1],
-                times: [0, 0.24, 0.78, 1],
-              }}
-              className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center"
-            >
-              <img
-                src={reveal.image}
-                alt=""
-                aria-hidden="true"
-                className="mb-10 h-[17vh] max-h-[180px] min-h-[90px] w-auto object-contain opacity-70"
-              />
-            </motion.div>
-          ))}
-        </motion.div>
-      )}
-
       {/* 1. Hero Section */}
       <section className="relative h-screen w-full overflow-hidden">
         <div className="absolute inset-0">

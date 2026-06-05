@@ -16,12 +16,87 @@ import { AuthProvider, useAuth } from './auth/AuthContext';
 import AuthGate from './components/AuthGate';
 import SiteAccessGate from './components/SiteAccessGate';
 
+const pageTransitionReveals = [
+  {
+    word: 'ESMERALDA',
+    image: 'https://i.ibb.co/tP1sdM9W/Captura-de-pantalla-2026-05-27-a-la-s-18-16-09-1-removebg-preview.png',
+    delay: 0,
+    duration: 1.3,
+  },
+  {
+    word: 'ESMERALDA',
+    image: 'https://i.ibb.co/tP1sdM9W/Captura-de-pantalla-2026-05-27-a-la-s-18-16-09-1-removebg-preview.png',
+    delay: 1.3,
+    duration: 1.3,
+  },
+  {
+    word: 'AURORE',
+    image: 'https://i.ibb.co/gZbgXv5S/Captura-de-pantalla-2026-05-27-a-la-s-18-15-50-removebg-preview.png',
+    delay: 2.6,
+    duration: 1.4,
+  },
+];
+
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
   return null;
+}
+
+function PageTransitionOverlay() {
+  const { pathname } = useLocation();
+  const previousPath = useRef(pathname);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    if (previousPath.current === pathname) return;
+
+    previousPath.current = pathname;
+    setIsVisible(true);
+    const timer = window.setTimeout(() => setIsVisible(false), 4000);
+
+    return () => window.clearTimeout(timer);
+  }, [pathname]);
+
+  return (
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25, ease: 'easeOut' }}
+          className="fixed inset-0 z-[9999] pointer-events-none overflow-hidden bg-[#fbfaf7]"
+        >
+          <div className="absolute inset-0 bg-[#fbfaf7]" />
+
+          {pageTransitionReveals.map((reveal) => (
+            <motion.div
+              key={`${reveal.word}-${reveal.delay}`}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: [0, 1, 1, 0], y: [16, 4, 12, 26] }}
+              transition={{
+                duration: reveal.duration,
+                delay: reveal.delay,
+                ease: [0.76, 0, 0.24, 1],
+                times: [0, 0.24, 0.78, 1],
+              }}
+              className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center"
+            >
+              <img
+                src={reveal.image}
+                alt=""
+                aria-hidden="true"
+                className="mb-10 h-[17vh] max-h-[180px] min-h-[90px] w-auto object-contain opacity-70"
+              />
+            </motion.div>
+          ))}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
 }
 
 function ContactSuccessNotice() {
@@ -352,6 +427,7 @@ export default function App() {
       <AuthProvider>
         <Router>
           <ScrollToTop />
+          <PageTransitionOverlay />
           <ContactSuccessNotice />
           <AuthGate>
             <div className="min-h-screen flex flex-col">
