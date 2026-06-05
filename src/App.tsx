@@ -106,9 +106,9 @@ function Navbar() {
   }, [isSearchOpen]);
 
   const isLight = (isHomePage && !isScrolled) || isFirstClassPage;
-  const textColor = isLight ? 'text-white' : 'text-[#19110b]';
+  const textColor = isFirstClassPage ? 'text-[#c9a35d]' : isLight ? 'text-white' : 'text-[#19110b]';
   const bgColor = isFirstClassPage ? 'bg-black' : isScrolled || !isHomePage ? 'bg-white' : 'bg-transparent';
-  const borderBottom = isFirstClassPage ? 'border-b border-white/10' : isScrolled || !isHomePage ? 'border-b border-[#e8e8e4]' : 'border-b border-transparent';
+  const borderBottom = isFirstClassPage ? 'border-b border-[#c9a35d]/18' : isScrolled || !isHomePage ? 'border-b border-[#e8e8e4]' : 'border-b border-transparent';
   const menuItems = [
     { label: 'Prêt-à-Porter', to: '/pret-a-porter' },
     { label: 'Maroquinerie', to: '/maroquinerie' },
