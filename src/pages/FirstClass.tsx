@@ -57,21 +57,21 @@ export default function FirstClass() {
 
   return (
     <div className="min-h-screen bg-black text-[#c9a35d]">
-      <section className="relative px-6 pb-24 pt-32 md:px-10 md:pb-32 md:pt-40">
+      <section className="relative px-6 pb-20 pt-28 md:px-10 md:pb-24 md:pt-32">
         <motion.div
           initial={{ opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: 'easeOut' }}
           className="mx-auto max-w-[1320px]"
         >
-          <div className="mx-auto flex min-h-[72vh] max-w-[1120px] flex-col items-center justify-center text-center">
+          <div className="mx-auto flex min-h-[58vh] max-w-[960px] flex-col items-center justify-center text-center">
             <p className="text-[10px] uppercase tracking-[0.38em] text-[#c9a35d]/62">
               Espace privé de la Maison
             </p>
-            <h1 className="mt-10 text-5xl font-medium tracking-[0.24em] text-[#c9a35d] md:text-8xl">
+            <h1 className="mt-8 text-4xl font-medium tracking-[0.24em] text-[#c9a35d] md:text-6xl">
               FIRST CLASS
             </h1>
-            <p className="mt-20 max-w-[1240px] font-editorial text-3xl leading-loose text-[#c9a35d]/78 md:text-5xl">
+            <p className="mt-12 max-w-[920px] font-editorial text-xl leading-loose text-[#c9a35d]/78 md:text-3xl">
               Cet espace est réservé à ceux qui souhaitent découvrir Bel Air One au-delà du prêt-à-porter. Vous y trouverez le développement des créations, les projets à venir, les défilés et l’évolution de la maison vue de l’intérieur.
             </p>
           </div>
@@ -80,15 +80,15 @@ export default function FirstClass() {
             {firstClassSections.map((section) => (
               <article
                 key={section.title}
-                className="flex min-h-[78vh] flex-col items-center justify-center border-t border-[#c9a35d]/18 px-0 py-24 text-center md:py-32"
+                className="flex min-h-[56vh] flex-col items-center justify-center border-t border-[#c9a35d]/18 px-0 py-20 text-center md:py-24"
               >
                 <p className="text-[10px] uppercase tracking-[0.38em] text-[#c9a35d]/52">
                   BEL AIR ONE
                 </p>
-                <h2 className="mt-10 text-4xl font-medium tracking-[0.22em] text-[#c9a35d] md:text-7xl">
+                <h2 className="mt-8 text-3xl font-medium tracking-[0.22em] text-[#c9a35d] md:text-5xl">
                   {section.title}
                 </h2>
-                <p className="mt-16 max-w-[1120px] font-editorial text-3xl leading-loose text-[#c9a35d]/75 md:text-5xl">
+                <p className="mt-10 max-w-[900px] font-editorial text-xl leading-loose text-[#c9a35d]/75 md:text-3xl">
                   {section.text}
                 </p>
               </article>
