@@ -115,7 +115,7 @@ export default function Home() {
               className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.025]"
             />
           </div>
-          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/45 via-black/15 to-transparent px-4 pb-5 pt-16 text-center text-white">
+          <div className="absolute inset-x-0 bottom-0 px-4 pb-5 pt-16 text-center text-white">
             <h3 className="text-[13px] md:text-[15px] tracking-[0.04em] normal-case">
               Malle Jour Blanc
             </h3>
@@ -140,7 +140,7 @@ export default function Home() {
                   className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.025]"
                 />
               </div>
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/45 via-black/15 to-transparent px-4 pb-5 pt-16 text-center text-white">
+              <div className="absolute inset-x-0 bottom-0 px-4 pb-5 pt-16 text-center text-white">
                 <h3 className="text-[12px] md:text-[14px] tracking-[0.04em] normal-case">
                   {product.name}
                 </h3>
