@@ -32,17 +32,17 @@ const jourBlancProducts = [
   {
     name: 'Robe Jour Blanc',
     price: '2 400 CHF',
-    image: 'https://i.postimg.cc/Y9mmV5qq/40FD4DCB-2798-41B0-94D1-0E39903BA05B.png',
+    image: '/images/malle-jour-blanc.jpg',
   },
   {
     name: 'Portefeuille Signature',
     price: '540 CHF',
-    image: 'https://i.postimg.cc/FHQVscxG/A401B2D6-581B-495D-A640-ED092B5EE301.png',
+    image: '/images/malle-jour-blanc.jpg',
   },
   {
     name: 'Veste Première',
     price: '2 950 CHF',
-    image: 'https://i.ibb.co/W4Vd4zdj/4-C696078-8-E57-43-E2-9-A82-D7-DCA127-AE91.png',
+    image: '/images/malle-jour-blanc.jpg',
   },
 ];
 
