@@ -123,7 +123,7 @@ export default function Home() {
           </div>
         </motion.article>
 
-        <div className="mx-auto mt-20 grid max-w-[1600px] grid-cols-2 gap-0 md:grid-cols-4">
+        <div className="mx-auto mt-20 grid max-w-[980px] grid-cols-2 gap-4 md:grid-cols-4 md:gap-5">
           {jourBlancProducts.map((product, index) => (
             <motion.article
               key={product.name}
