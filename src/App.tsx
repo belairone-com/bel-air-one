@@ -310,7 +310,7 @@ function Navbar() {
               Nous Contacter
             </Link>
             <button className="hidden text-[#b11226] md:block hover:opacity-60 transition-opacity" aria-label="Favoris">
-              <Heart size={20} strokeWidth={1.3} />
+              <Heart size={20} strokeWidth={1.3} fill="currentColor" />
             </button>
             <button onClick={logout} className="hover:opacity-60 transition-opacity" aria-label="Se déconnecter">
               <User size={20} strokeWidth={1.3} />
