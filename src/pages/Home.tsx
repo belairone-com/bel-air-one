@@ -27,22 +27,18 @@ const jourBlancProducts = [
   {
     name: 'Malle Bel Air One',
     price: '8 900 CHF',
-    image: '/images/malle-jour-blanc.jpg',
   },
   {
     name: 'Robe Jour Blanc',
     price: '2 400 CHF',
-    image: '/images/malle-jour-blanc.jpg',
   },
   {
     name: 'Portefeuille Signature',
     price: '540 CHF',
-    image: '/images/malle-jour-blanc.jpg',
   },
   {
     name: 'Veste Première',
     price: '2 950 CHF',
-    image: '/images/malle-jour-blanc.jpg',
   },
 ];
 
@@ -123,7 +119,13 @@ export default function Home() {
           </div>
         </motion.article>
 
-        <div className="mx-auto mt-20 grid max-w-[1180px] grid-cols-2 gap-0 md:grid-cols-4">
+        <div className="relative mx-auto mt-20 grid max-w-[1180px] grid-cols-2 gap-0 overflow-hidden bg-[#f8fbfd] md:grid-cols-4">
+          <div
+            className="absolute inset-0 bg-cover bg-center opacity-40"
+            style={{ backgroundImage: "url('/images/jour-blanc-alpine-panorama.png')" }}
+            aria-hidden="true"
+          />
+          <div className="absolute inset-0 bg-white/35" aria-hidden="true" />
           {jourBlancProducts.map((product, index) => (
             <motion.article
               key={product.name}
@@ -133,18 +135,12 @@ export default function Home() {
               transition={{ duration: 0.55, delay: index * 0.06, ease: "easeOut" }}
               className="group relative overflow-hidden"
             >
-              <div className="aspect-[4/5] overflow-hidden bg-[#f4f2ee]">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.025]"
-                />
-              </div>
-              <div className="absolute inset-x-0 bottom-0 px-4 pb-5 pt-16 text-center text-white">
+              <div className="aspect-[4/5]" />
+              <div className="absolute inset-x-0 bottom-0 px-4 pb-5 pt-16 text-center text-[#243346]">
                 <h3 className="text-[12px] md:text-[14px] tracking-[0.04em] normal-case">
                   {product.name}
                 </h3>
-                <p className="mt-2 text-[12px] md:text-sm text-white/80">{product.price}</p>
+                <p className="mt-2 text-[12px] text-[#455568] md:text-sm">{product.price}</p>
               </div>
             </motion.article>
           ))}
