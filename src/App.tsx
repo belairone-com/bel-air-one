@@ -53,6 +53,7 @@ function ScrollToTop() {
 function PageTransitionOverlay() {
   const navigate = useNavigate();
   const timeoutRef = useRef<number | null>(null);
+  const isTransitioningRef = useRef(false);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -62,11 +63,13 @@ function PageTransitionOverlay() {
       const nextPath = `${nextUrl.pathname}${nextUrl.search}${nextUrl.hash}`;
       const currentPath = `${currentUrl.pathname}${currentUrl.search}${currentUrl.hash}`;
 
-      if (nextUrl.origin !== window.location.origin || nextPath === currentPath || isVisible) return;
+      if (nextUrl.origin !== window.location.origin || nextPath === currentPath || isTransitioningRef.current) return;
 
+      isTransitioningRef.current = true;
       setIsVisible(true);
       timeoutRef.current = window.setTimeout(() => {
         navigate(nextPath);
+        isTransitioningRef.current = false;
         setIsVisible(false);
       }, pageTransitionDuration);
     };
@@ -102,9 +105,12 @@ function PageTransitionOverlay() {
     return () => {
       document.removeEventListener('click', handleDocumentClick, true);
       window.removeEventListener('belairone:navigate', handleRequestedNavigation);
-      if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
+      if (timeoutRef.current) {
+        window.clearTimeout(timeoutRef.current);
+        isTransitioningRef.current = false;
+      }
     };
-  }, [isVisible, navigate]);
+  }, [navigate]);
 
   return (
     <AnimatePresence>
