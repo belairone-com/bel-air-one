@@ -238,6 +238,7 @@ function Navbar() {
     { label: 'First Class', to: '/first-class' },
     { label: 'Les Archives', to: '/archives' },
     { label: 'La Maison', to: '/maison' },
+    { label: 'Contact', to: '/contact' },
     ...(isAdminAccount ? [{ label: 'Administration', to: '/administration' }] : []),
   ];
   const searchableProducts = [
@@ -306,9 +307,13 @@ function Navbar() {
 
           {/* Right side — Nous Contacter + icons */}
           <div className={`flex items-center gap-5 ${textColor} transition-colors duration-300`}>
-            <Link to="/contact" className="hidden lg:inline text-[13px] tracking-[0.04em] hover:opacity-60 transition-opacity">
+            <button
+              type="button"
+              onClick={() => requestPageTransition('/contact')}
+              className="hidden lg:inline text-[13px] tracking-[0.04em] hover:opacity-60 transition-opacity"
+            >
               Nous Contacter
-            </Link>
+            </button>
             <button className="text-[#8fd0ff] hover:opacity-60 transition-opacity" aria-label="Favoris">
               <Heart size={20} strokeWidth={1.3} fill="currentColor" />
             </button>
@@ -447,12 +452,13 @@ function Footer() {
         <p className="font-editorial text-xl md:text-2xl text-white/80 mb-8">
           Pour toute demande privée :
         </p>
-        <a
-          href="/contact"
+        <button
+          type="button"
+          onClick={() => requestPageTransition('/contact')}
           className="block text-sm md:text-base tracking-[0.12em] text-white hover:text-white/70 transition-colors mb-16"
         >
           belairone.ch@gmail.com
-        </a>
+        </button>
         <p className="text-[11px] uppercase tracking-[0.28em] text-white/45 mb-5">Instagram</p>
         <a
           href="https://instagram.com/belair.one"
