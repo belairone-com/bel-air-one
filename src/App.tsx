@@ -309,7 +309,7 @@ function Navbar() {
             <Link to="/contact" className="hidden lg:inline text-[13px] tracking-[0.04em] hover:opacity-60 transition-opacity">
               Nous Contacter
             </Link>
-            <button className="text-[#b11226] hover:opacity-60 transition-opacity" aria-label="Favoris">
+            <button className="text-[#8fd0ff] hover:opacity-60 transition-opacity" aria-label="Favoris">
               <Heart size={20} strokeWidth={1.3} fill="currentColor" />
             </button>
             <button onClick={logout} className="hover:opacity-60 transition-opacity" aria-label="Se déconnecter">
