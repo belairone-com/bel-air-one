@@ -1,6 +1,42 @@
 import { motion } from 'framer-motion';
+import { FormEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Contact() {
+  const navigate = useNavigate();
+  const [isSending, setIsSending] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setErrorMessage('');
+    setIsSending(true);
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/belairone.ch@gmail.com', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Form submission failed');
+      }
+
+      form.reset();
+      navigate('/?contact=envoye');
+    } catch {
+      setErrorMessage("Votre message n'a pas pu être envoyé. Veuillez réessayer.");
+    } finally {
+      setIsSending(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#fbfaf7] text-[#19110b] pt-[60px]">
       <section className="px-6 py-24 md:px-10 md:py-32">
@@ -21,14 +57,12 @@ export default function Contact() {
           </div>
 
           <form
-            action="https://formsubmit.co/belairone.ch@gmail.com"
-            method="POST"
+            onSubmit={handleSubmit}
             className="mt-16 space-y-8"
           >
             <input type="hidden" name="_subject" value="Nouvelle demande BEL AIR ONE" />
             <input type="hidden" name="_template" value="table" />
             <input type="hidden" name="_captcha" value="false" />
-            <input type="hidden" name="_next" value="https://www.belairone.com/?contact=envoye" />
 
             <label className="block">
               <span className="block text-[10px] uppercase tracking-[0.24em] text-[#8a8278]">Nom</span>
@@ -46,6 +80,7 @@ export default function Contact() {
                 name="email"
                 type="email"
                 required
+                data-formsubmit-replyto
                 className="mt-3 w-full border-b border-[#19110b]/25 bg-transparent py-4 outline-none transition-colors focus:border-[#19110b]"
                 autoComplete="email"
               />
@@ -61,8 +96,17 @@ export default function Contact() {
               />
             </label>
 
-            <button className="w-full border border-[#19110b] py-4 text-[11px] uppercase tracking-[0.28em] transition-colors hover:bg-[#19110b] hover:text-white md:w-auto md:px-16">
-              Envoyer
+            {errorMessage && (
+              <p className="font-editorial text-lg text-[#6f675f]">
+                {errorMessage}
+              </p>
+            )}
+
+            <button
+              disabled={isSending}
+              className="w-full border border-[#19110b] py-4 text-[11px] uppercase tracking-[0.28em] transition-colors hover:bg-[#19110b] hover:text-white disabled:cursor-wait disabled:opacity-50 md:w-auto md:px-16"
+            >
+              {isSending ? 'Envoi' : 'Envoyer'}
             </button>
           </form>
 
