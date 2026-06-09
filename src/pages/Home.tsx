@@ -52,15 +52,18 @@ export default function Home() {
       {/* 1. Hero Section */}
       <section className="relative h-screen w-full overflow-hidden">
         <div className="absolute inset-0">
-          <img 
-            src="https://i.ibb.co/x8DqQJPm/Diferencia-en-tonos-fondo.png" 
-            alt="BEL AIR ONE Campaign" 
-            className="w-full h-full object-cover object-center"
-            loading="eager"
-            decoding="async"
-            fetchPriority="high"
-            style={{ imageRendering: 'auto' }}
-          />
+          <picture className="block h-full w-full">
+            <source media="(max-width: 767px)" srcSet="/images/mobile-jour-blanc-hero.jpg" />
+            <img 
+              src="https://i.ibb.co/x8DqQJPm/Diferencia-en-tonos-fondo.png" 
+              alt="BEL AIR ONE Campaign" 
+              className="w-full h-full object-cover object-center"
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
+              style={{ imageRendering: 'auto' }}
+            />
+          </picture>
           <div className="absolute inset-0 bg-white/10" />
         </div>
         <div className="absolute inset-x-0 top-[31%] z-10 flex justify-center px-6 md:top-[34%]">
@@ -219,17 +222,6 @@ export default function Home() {
             </button>
           </div>
 
-          <div className="mx-auto mt-20 max-w-md border-y border-[#e8e2da] py-10 text-center">
-            <p className="mb-8 text-[10px] uppercase tracking-[0.3em] text-[#8a8278]">Pièce enregistrée</p>
-            <div className="space-y-3 text-sm uppercase tracking-[0.2em] text-[#342f2a]">
-              <p>BEL AIR ONE</p>
-              <p>JOUR BLANC</p>
-              <p>Pièce Nº 0001</p>
-            </div>
-            <p className="mx-auto mt-8 max-w-sm font-editorial text-lg leading-relaxed text-[#6f675f]">
-              Cette création figure dans les archives officielles de la Maison.
-            </p>
-          </div>
         </motion.div>
       </section>
     </div>
