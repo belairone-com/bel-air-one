@@ -122,9 +122,9 @@ export default function Home() {
           </div>
         </motion.article>
 
-        <div className="relative mx-auto mt-20 grid max-w-[1180px] grid-cols-1 gap-y-10 overflow-hidden bg-[#f8fbfd] md:grid-cols-4 md:gap-0">
+        <div className="relative mx-auto mt-20 grid min-h-[1320px] max-w-[1180px] grid-cols-1 gap-y-10 overflow-hidden bg-[#f8fbfd] md:min-h-0 md:grid-cols-4 md:gap-0">
           <div
-            className="absolute inset-0 bg-cover bg-center md:hidden"
+            className="absolute inset-0 bg-contain bg-top bg-no-repeat md:hidden"
             style={{ backgroundImage: "url('/images/jour-blanc-alpine-mobile.png')" }}
             aria-hidden="true"
           />
@@ -142,7 +142,7 @@ export default function Home() {
               transition={{ duration: 0.55, delay: index * 0.06, ease: "easeOut" }}
               className="group relative overflow-hidden"
             >
-              <div className="aspect-[4/5] md:aspect-[4/5]" />
+              <div className="min-h-[330px] md:aspect-[4/5] md:min-h-0" />
               <div className="absolute inset-x-0 bottom-0 px-4 pb-8 pt-16 text-center text-[#243346] md:pb-5">
                 <h3 className="text-[12px] md:text-[14px] tracking-[0.04em] normal-case">
                   {product.name}
