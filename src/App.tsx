@@ -19,19 +19,19 @@ import SiteAccessGate from './components/SiteAccessGate';
 const pageTransitionReveals = [
   {
     word: 'ESMERALDA',
-    image: 'https://i.ibb.co/tP1sdM9W/Captura-de-pantalla-2026-05-27-a-la-s-18-16-09-1-removebg-preview.png',
+    image: '/images/page-transition-logo.jpg',
     delay: 0,
     duration: 1.3,
   },
   {
     word: 'ESMERALDA',
-    image: 'https://i.ibb.co/tP1sdM9W/Captura-de-pantalla-2026-05-27-a-la-s-18-16-09-1-removebg-preview.png',
+    image: '/images/page-transition-logo.jpg',
     delay: 1.3,
     duration: 1.3,
   },
   {
     word: 'AURORE',
-    image: 'https://i.ibb.co/gZbgXv5S/Captura-de-pantalla-2026-05-27-a-la-s-18-15-50-removebg-preview.png',
+    image: '/images/page-transition-logo.jpg',
     delay: 2.6,
     duration: 1.4,
   },
@@ -313,13 +313,12 @@ function Navbar() {
 
           {/* Right side — Nous Contacter + icons */}
           <div className={`flex items-center gap-5 ${textColor} transition-colors duration-300`}>
-            <button
-              type="button"
-              onClick={() => requestPageTransition('/contact')}
+            <Link
+              to="/contact"
               className="hidden lg:inline text-[13px] tracking-[0.04em] hover:opacity-60 transition-opacity"
             >
               Nous Contacter
-            </button>
+            </Link>
             <button className="text-[#8fd0ff] hover:opacity-60 transition-opacity" aria-label="Favoris">
               <Heart size={20} strokeWidth={1.3} fill="currentColor" />
             </button>
@@ -458,13 +457,12 @@ function Footer() {
         <p className="font-editorial text-xl md:text-2xl text-white/80 mb-8">
           Pour toute demande privée :
         </p>
-        <button
-          type="button"
-          onClick={() => requestPageTransition('/contact')}
+        <Link
+          to="/contact"
           className="block text-sm md:text-base tracking-[0.12em] text-white hover:text-white/70 transition-colors mb-16"
         >
           belairone.ch@gmail.com
-        </button>
+        </Link>
         <p className="text-[11px] uppercase tracking-[0.28em] text-white/45 mb-5">Instagram</p>
         <a
           href="https://instagram.com/belair.one"
