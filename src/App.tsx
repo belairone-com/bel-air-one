@@ -19,19 +19,19 @@ import SiteAccessGate from './components/SiteAccessGate';
 const pageTransitionReveals = [
   {
     word: 'ESMERALDA',
-    image: '/images/page-transition-logo.jpg',
+    image: 'https://i.ibb.co/tP1sdM9W/Captura-de-pantalla-2026-05-27-a-la-s-18-16-09-1-removebg-preview.png',
     delay: 0,
     duration: 1.3,
   },
   {
     word: 'ESMERALDA',
-    image: '/images/page-transition-logo.jpg',
+    image: 'https://i.ibb.co/tP1sdM9W/Captura-de-pantalla-2026-05-27-a-la-s-18-16-09-1-removebg-preview.png',
     delay: 1.3,
     duration: 1.3,
   },
   {
     word: 'AURORE',
-    image: '/images/page-transition-logo.jpg',
+    image: 'https://i.ibb.co/gZbgXv5S/Captura-de-pantalla-2026-05-27-a-la-s-18-15-50-removebg-preview.png',
     delay: 2.6,
     duration: 1.4,
   },
