@@ -55,6 +55,7 @@ function PageTransitionOverlay() {
   const timeoutRef = useRef<number | null>(null);
   const isTransitioningRef = useRef(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isFirstClassContactTransition, setIsFirstClassContactTransition] = useState(false);
 
   useEffect(() => {
     const startTransition = (path: string) => {
@@ -65,6 +66,7 @@ function PageTransitionOverlay() {
 
       if (nextUrl.origin !== window.location.origin || nextPath === currentPath || isTransitioningRef.current) return;
 
+      setIsFirstClassContactTransition(currentUrl.pathname === '/first-class' && nextUrl.pathname === '/contact');
       isTransitioningRef.current = true;
       setIsVisible(true);
       timeoutRef.current = window.setTimeout(() => {
@@ -120,9 +122,9 @@ function PageTransitionOverlay() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25, ease: 'easeOut' }}
-          className="fixed inset-0 z-[9999] pointer-events-none overflow-hidden bg-[#fbfaf7]"
+          className={`fixed inset-0 z-[9999] pointer-events-none overflow-hidden ${isFirstClassContactTransition ? 'bg-black' : 'bg-[#fbfaf7]'}`}
         >
-          <div className="absolute inset-0 bg-[#fbfaf7]" />
+          <div className={`absolute inset-0 ${isFirstClassContactTransition ? 'bg-black' : 'bg-[#fbfaf7]'}`} />
 
           {pageTransitionReveals.map((reveal) => (
             <motion.div
@@ -141,7 +143,7 @@ function PageTransitionOverlay() {
                 src={reveal.image}
                 alt=""
                 aria-hidden="true"
-                className="mb-10 h-[17vh] max-h-[180px] min-h-[90px] w-auto object-contain opacity-70"
+                className={`mb-10 h-[17vh] max-h-[180px] min-h-[90px] w-auto object-contain opacity-70 ${isFirstClassContactTransition ? 'brightness-0 sepia saturate-[260%] hue-rotate-[358deg] contrast-[92%]' : ''}`}
               />
             </motion.div>
           ))}
