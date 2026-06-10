@@ -14,13 +14,11 @@ type PretAPorterAudience = 'homme' | 'femme';
 const categoryContent: Record<CategoryKey, {
   title: string;
   phrase: string;
-  hero: string;
   products: Product[];
 }> = {
   'pret-a-porter': {
     title: 'Prêt-à-Porter',
     phrase: 'Des lignes précises, pensées pour une présence silencieuse.',
-    hero: 'https://i.ibb.co/W4Vd4zdj/4-C696078-8-E57-43-E2-9-A82-D7-DCA127-AE91.png',
     products: [
       { name: 'Manteau Belvédère', price: '2 950 CHF', image: 'https://images.unsplash.com/photo-1548624313-0396c75e4b1a?q=80&w=900&auto=format&fit=crop' },
     ],
@@ -28,7 +26,6 @@ const categoryContent: Record<CategoryKey, {
   maroquinerie: {
     title: 'Maroquinerie',
     phrase: 'Chaque création est réalisée en Italie, pièce par pièce, par des artisans spécialisés en maroquinerie.',
-    hero: '/images/malle-jour-blanc.jpg',
     products: [
       { name: 'Malle Bel Air One', price: '8 900 CHF', image: '/images/malle-jour-blanc.jpg' },
     ],
@@ -36,7 +33,6 @@ const categoryContent: Record<CategoryKey, {
   robes: {
     title: 'Robes',
     phrase: 'Des silhouettes rares, entre tension, mouvement et retenue.',
-    hero: 'https://i.postimg.cc/Y9mmV5qq/40FD4DCB-2798-41B0-94D1-0E39903BA05B.png',
     products: [
       { name: 'Robe Class 1', price: '2 400 CHF', image: 'https://i.postimg.cc/Y9mmV5qq/40FD4DCB-2798-41B0-94D1-0E39903BA05B.png' },
       { name: 'Robe Épure', price: '1 850 CHF', image: 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?q=80&w=900&auto=format&fit=crop' },
@@ -51,7 +47,6 @@ const categoryContent: Record<CategoryKey, {
   accessoires: {
     title: 'Accessoires',
     phrase: 'Les détails qui définissent une allure sans l’imposer.',
-    hero: 'https://i.postimg.cc/FHQVscxG/A401B2D6-581B-495D-A640-ED092B5EE301.png',
     products: [
       { name: 'Collier Perle One', price: '540 CHF', image: 'https://i.postimg.cc/FHQVscxG/A401B2D6-581B-495D-A640-ED092B5EE301.png' },
     ],
@@ -73,20 +68,7 @@ export default function CategoryPage({ category, audience = 'femme' }: { categor
 
   return (
     <div className="bg-white text-[#19110b]">
-      <section className="relative h-[88vh] min-h-[620px] w-full overflow-hidden">
-        <motion.img
-          src={content.hero}
-          alt={content.title}
-          initial={{ scale: 1.04, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.1, ease: 'easeOut' }}
-          className="absolute inset-0 h-full w-full object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-black/25" />
-
-      </section>
-
-      <section id="selection" className="px-5 md:px-10 py-20 md:py-28">
+      <section id="selection" className="px-5 pb-20 pt-32 md:px-10 md:pb-28 md:pt-40">
         <div className="mx-auto max-w-[1500px]">
           <div className="mb-14 text-center">
             <p className="text-[10px] uppercase tracking-[0.36em] text-[#8a8278]">BEL AIR ONE</p>
