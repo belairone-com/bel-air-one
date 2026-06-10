@@ -27,7 +27,7 @@ const categoryContent: Record<CategoryKey, {
   },
   maroquinerie: {
     title: 'Maroquinerie',
-    phrase: 'Le cuir comme architecture, la main comme signature.',
+    phrase: 'Chaque création est réalisée en Italie, pièce par pièce, par des artisans spécialisés en maroquinerie.',
     hero: '/images/malle-jour-blanc.jpg',
     products: [
       { name: 'Malle Bel Air One', price: '8 900 CHF', image: '/images/malle-jour-blanc.jpg' },
@@ -91,6 +91,11 @@ export default function CategoryPage({ category, audience = 'femme' }: { categor
           <div className="mb-14 text-center">
             <p className="text-[10px] uppercase tracking-[0.36em] text-[#8a8278]">BEL AIR ONE</p>
             <h2 className="mt-5 text-2xl md:text-4xl font-medium tracking-[0.16em] uppercase">{content.title}</h2>
+            {category === 'maroquinerie' && (
+              <p className="mx-auto mt-8 max-w-2xl font-editorial text-xl leading-relaxed text-[#6f675f] md:text-2xl">
+                {content.phrase}
+              </p>
+            )}
             {category === 'pret-a-porter' && (
               <nav className="mt-10 flex items-center justify-center gap-6 text-[11px] uppercase tracking-[0.28em] text-[#8a8278] md:gap-8">
                 <Link
