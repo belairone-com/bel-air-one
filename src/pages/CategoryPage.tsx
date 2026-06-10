@@ -74,8 +74,8 @@ export default function CategoryPage({ category, audience = 'femme' }: { categor
             <p className="text-[10px] uppercase tracking-[0.36em] text-[#8a8278]">BEL AIR ONE</p>
             <h2 className="mt-5 text-2xl md:text-4xl font-medium tracking-[0.16em] uppercase">{content.title}</h2>
             {category === 'maroquinerie' && (
-              <p className="mx-auto mt-8 max-w-2xl font-editorial text-xl leading-relaxed text-[#6f675f] md:text-2xl">
-                {content.phrase}
+              <p className="mx-auto mt-8 max-w-3xl font-editorial text-xl leading-relaxed text-[#6f675f] md:text-2xl">
+                Chaque création est réalisée en Italie, pièce par pièce, par des artisans spécialisés en maroquinerie.
               </p>
             )}
             {category === 'pret-a-porter' && (
