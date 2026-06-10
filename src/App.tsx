@@ -31,7 +31,7 @@ const pageTransitionReveals = [
   },
   {
     word: 'AURORE',
-    image: 'https://i.ibb.co/gZbgXv5S/Captura-de-pantalla-2026-05-27-a-la-s-18-15-50-removebg-preview.png',
+    image: '/images/page-transition-aurore.png',
     delay: 2.6,
     duration: 1.4,
   },
