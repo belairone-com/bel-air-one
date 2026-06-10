@@ -46,7 +46,7 @@ const categoryContent: Record<CategoryKey, {
   },
   accessoires: {
     title: 'Accessoires',
-    phrase: 'Les détails qui définissent une allure sans l’imposer.',
+    phrase: 'Développés entre la Suisse et l’Italie. Chaque accessoire est créé avec une attention particulière portée aux matières, aux détails et aux finitions.',
     products: [
       { name: 'Collier Perle One', price: '540 CHF', image: 'https://i.postimg.cc/FHQVscxG/A401B2D6-581B-495D-A640-ED092B5EE301.png' },
     ],
@@ -81,6 +81,11 @@ export default function CategoryPage({ category, audience = 'femme' }: { categor
             {category === 'maroquinerie' && (
               <p className="mx-auto mt-8 max-w-3xl font-editorial text-xl leading-relaxed text-[#6f675f] md:text-2xl">
                 Chaque création est réalisée en Italie, pièce par pièce, par des artisans spécialisés en maroquinerie.
+              </p>
+            )}
+            {category === 'accessoires' && (
+              <p className="mx-auto mt-8 max-w-3xl font-editorial text-xl leading-relaxed text-[#6f675f] md:text-2xl">
+                Développés entre la Suisse et l’Italie. Chaque accessoire est créé avec une attention particulière portée aux matières, aux détails et aux finitions.
               </p>
             )}
             {category === 'pret-a-porter' && (
