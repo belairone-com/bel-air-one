@@ -55,7 +55,7 @@ function PageTransitionOverlay() {
   const timeoutRef = useRef<number | null>(null);
   const isTransitioningRef = useRef(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [isFirstClassContactTransition, setIsFirstClassContactTransition] = useState(false);
+  const [isFirstClassMenuTransition, setIsFirstClassMenuTransition] = useState(false);
 
   useEffect(() => {
     const startTransition = (path: string) => {
@@ -66,7 +66,22 @@ function PageTransitionOverlay() {
 
       if (nextUrl.origin !== window.location.origin || nextPath === currentPath || isTransitioningRef.current) return;
 
-      setIsFirstClassContactTransition(currentUrl.pathname === '/first-class' && nextUrl.pathname === '/contact');
+      const firstClassMenuPaths = [
+        '/pret-a-porter',
+        '/maroquinerie',
+        '/robes',
+        '/accessoires',
+        '/first-class',
+        '/archives',
+        '/maison',
+        '/contact',
+        '/administration',
+        '/belaironeadmin',
+      ];
+      const isFirstClassSource =
+        currentUrl.pathname === '/first-class' ||
+        (currentUrl.pathname === '/contact' && currentUrl.searchParams.get('theme') === 'first-class');
+      setIsFirstClassMenuTransition(isFirstClassSource && firstClassMenuPaths.includes(nextUrl.pathname));
       isTransitioningRef.current = true;
       setIsVisible(true);
       timeoutRef.current = window.setTimeout(() => {
@@ -122,9 +137,9 @@ function PageTransitionOverlay() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25, ease: 'easeOut' }}
-          className={`fixed inset-0 z-[9999] pointer-events-none overflow-hidden ${isFirstClassContactTransition ? 'bg-black' : 'bg-[#fbfaf7]'}`}
+          className={`fixed inset-0 z-[9999] pointer-events-none overflow-hidden ${isFirstClassMenuTransition ? 'bg-black' : 'bg-[#fbfaf7]'}`}
         >
-          <div className={`absolute inset-0 ${isFirstClassContactTransition ? 'bg-black' : 'bg-[#fbfaf7]'}`} />
+          <div className={`absolute inset-0 ${isFirstClassMenuTransition ? 'bg-black' : 'bg-[#fbfaf7]'}`} />
 
           {pageTransitionReveals.map((reveal) => (
             <motion.div
@@ -144,7 +159,7 @@ function PageTransitionOverlay() {
                 alt=""
                 aria-hidden="true"
                 className="mb-10 h-[17vh] max-h-[180px] min-h-[90px] w-auto object-contain opacity-70"
-                style={isFirstClassContactTransition ? {
+                style={isFirstClassMenuTransition ? {
                   filter: 'brightness(0) saturate(100%) invert(68%) sepia(42%) saturate(536%) hue-rotate(2deg) brightness(91%) contrast(88%)',
                 } : undefined}
               />
@@ -213,6 +228,8 @@ function Navbar() {
   const { currentUser, isAdminAccount, logout } = useAuth();
   const isHomePage = location.pathname === '/';
   const isFirstClassPage = location.pathname === '/first-class';
+  const isFirstClassContactPage = location.pathname === '/contact' && new URLSearchParams(location.search).get('theme') === 'first-class';
+  const isFirstClassTheme = isFirstClassPage || isFirstClassContactPage;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -237,11 +254,11 @@ function Navbar() {
     }
   }, [isSearchOpen]);
 
-  const isLight = (isHomePage && !isScrolled) || isFirstClassPage;
-  const textColor = isFirstClassPage ? 'text-[#c9a35d]' : isLight ? 'text-white' : 'text-[#19110b]';
-  const bgColor = isFirstClassPage ? 'bg-black' : isScrolled || !isHomePage ? 'bg-white' : 'bg-transparent';
-  const borderBottom = isFirstClassPage ? 'border-b border-[#c9a35d]/18' : isScrolled || !isHomePage ? 'border-b border-[#e8e8e4]' : 'border-b border-transparent';
-  const firstClassPanelTheme = isFirstClassPage;
+  const isLight = (isHomePage && !isScrolled) || isFirstClassTheme;
+  const textColor = isFirstClassTheme ? 'text-[#c9a35d]' : isLight ? 'text-white' : 'text-[#19110b]';
+  const bgColor = isFirstClassTheme ? 'bg-black' : isScrolled || !isHomePage ? 'bg-white' : 'bg-transparent';
+  const borderBottom = isFirstClassTheme ? 'border-b border-[#c9a35d]/18' : isScrolled || !isHomePage ? 'border-b border-[#e8e8e4]' : 'border-b border-transparent';
+  const firstClassPanelTheme = isFirstClassTheme;
   const firstClassContactPath = firstClassPanelTheme ? '/contact?theme=first-class' : '/contact';
   const panelBg = firstClassPanelTheme ? 'bg-black' : 'bg-white';
   const panelSurfaceBg = firstClassPanelTheme ? 'bg-black' : 'bg-[#fbfaf7]';
