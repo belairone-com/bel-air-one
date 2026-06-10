@@ -143,7 +143,10 @@ function PageTransitionOverlay() {
                 src={reveal.image}
                 alt=""
                 aria-hidden="true"
-                className={`mb-10 h-[17vh] max-h-[180px] min-h-[90px] w-auto object-contain opacity-70 ${isFirstClassContactTransition ? 'brightness-0 sepia saturate-[260%] hue-rotate-[358deg] contrast-[92%]' : ''}`}
+                className="mb-10 h-[17vh] max-h-[180px] min-h-[90px] w-auto object-contain opacity-70"
+                style={isFirstClassContactTransition ? {
+                  filter: 'brightness(0) saturate(100%) invert(68%) sepia(42%) saturate(536%) hue-rotate(2deg) brightness(91%) contrast(88%)',
+                } : undefined}
               />
             </motion.div>
           ))}
