@@ -236,6 +236,14 @@ function Navbar() {
   const textColor = isFirstClassPage ? 'text-[#c9a35d]' : isLight ? 'text-white' : 'text-[#19110b]';
   const bgColor = isFirstClassPage ? 'bg-black' : isScrolled || !isHomePage ? 'bg-white' : 'bg-transparent';
   const borderBottom = isFirstClassPage ? 'border-b border-[#c9a35d]/18' : isScrolled || !isHomePage ? 'border-b border-[#e8e8e4]' : 'border-b border-transparent';
+  const firstClassPanelTheme = isFirstClassPage;
+  const firstClassContactPath = firstClassPanelTheme ? '/contact?theme=first-class' : '/contact';
+  const panelBg = firstClassPanelTheme ? 'bg-black' : 'bg-white';
+  const panelSurfaceBg = firstClassPanelTheme ? 'bg-black' : 'bg-[#fbfaf7]';
+  const panelText = firstClassPanelTheme ? 'text-[#c9a35d]' : 'text-[#19110b]';
+  const panelMutedText = firstClassPanelTheme ? 'text-[#c9a35d]/58' : 'text-[#8a8278]';
+  const panelBorder = firstClassPanelTheme ? 'border-[#c9a35d]/18' : 'border-[#e8e8e4]';
+  const panelRule = firstClassPanelTheme ? 'border-[#c9a35d]/35' : 'border-[#19110b]/30';
   const menuItems = [
     { label: 'Prêt-à-Porter', to: '/pret-a-porter' },
     { label: 'Maroquinerie', to: '/maroquinerie' },
@@ -244,7 +252,7 @@ function Navbar() {
     { label: 'First Class', to: '/first-class' },
     { label: 'Les Archives', to: '/archives' },
     { label: 'La Maison', to: '/maison' },
-    { label: 'Contact', to: '/contact' },
+    { label: 'Contact', to: firstClassContactPath },
     ...(isAdminAccount ? [{ label: 'Administration', to: '/administration' }] : []),
   ];
   const searchableProducts = [
@@ -269,6 +277,15 @@ function Navbar() {
     setSearchQuery('');
     setSearchMessage('');
     setIsSearchOpen(true);
+  };
+
+  const handleAccountClick = () => {
+    if (isFirstClassPage) {
+      window.sessionStorage.setItem('belairone:first-class-account-theme', '1');
+    } else {
+      window.sessionStorage.removeItem('belairone:first-class-account-theme');
+    }
+    logout();
   };
 
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -314,7 +331,7 @@ function Navbar() {
           {/* Right side — Nous Contacter + icons */}
           <div className={`flex items-center gap-5 ${textColor} transition-colors duration-300`}>
             <Link
-              to="/contact"
+              to={firstClassContactPath}
               className="hidden lg:inline text-[13px] tracking-[0.04em] hover:opacity-60 transition-opacity"
             >
               Nous Contacter
@@ -322,7 +339,7 @@ function Navbar() {
             <button className="text-[#8fd0ff] hover:opacity-60 transition-opacity" aria-label="Favoris">
               <Heart size={20} strokeWidth={1.3} fill="currentColor" />
             </button>
-            <button onClick={logout} className="hover:opacity-60 transition-opacity" aria-label="Se déconnecter">
+            <button onClick={handleAccountClick} className="hover:opacity-60 transition-opacity" aria-label="Se déconnecter">
               <User size={20} strokeWidth={1.3} />
             </button>
           </div>
@@ -337,18 +354,18 @@ function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35 }}
-            className="fixed inset-0 bg-white z-[60] flex flex-col"
+            className={`fixed inset-0 z-[60] flex flex-col ${panelBg} ${panelText}`}
           >
             {/* Menu header */}
-            <div className="flex items-center justify-between px-6 lg:px-10 h-[60px] border-b border-[#e8e8e4]">
+            <div className={`flex h-[60px] items-center justify-between border-b px-6 lg:px-10 ${panelBorder}`}>
               <div className="w-20"></div>
-              <span className="text-[18px] md:text-[26px] font-medium tracking-[0.26em] md:tracking-[0.35em] whitespace-nowrap text-[#19110b]">
+              <span className={`text-[18px] md:text-[26px] font-medium tracking-[0.26em] md:tracking-[0.35em] whitespace-nowrap ${panelText}`}>
                 BEL AIR ONE
               </span>
               <div className="w-20 flex justify-end">
                 <button 
                   onClick={() => setIsMenuOpen(false)}
-                  className="text-[#19110b] hover:opacity-60 transition-opacity"
+                  className={`${panelText} hover:opacity-60 transition-opacity`}
                 >
                   <X size={24} strokeWidth={1.2} />
                 </button>
@@ -367,7 +384,7 @@ function Navbar() {
                   <Link 
                     to={item.to}
                     onClick={() => setIsMenuOpen(false)}
-                    className="text-2xl md:text-3xl font-light tracking-[0.15em] text-[#19110b] hover:opacity-50 transition-opacity"
+                    className={`text-2xl md:text-3xl font-light tracking-[0.15em] hover:opacity-50 transition-opacity ${panelText}`}
                   >
                     {item.label}
                   </Link>
@@ -375,8 +392,8 @@ function Navbar() {
               ))}
             </div>
             
-            <div className="py-8 text-center text-[11px] tracking-[0.25em] text-[#999]">
-              <button onClick={logout} className="hover:text-[#19110b] transition-colors">
+            <div className={`py-8 text-center text-[11px] tracking-[0.25em] ${panelMutedText}`}>
+              <button onClick={handleAccountClick} className="hover:opacity-70 transition-opacity">
                 SE DÉCONNECTER
               </button>
             </div>
@@ -391,9 +408,9 @@ function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35, ease: 'easeOut' }}
-            className="fixed inset-0 z-[70] bg-[#fbfaf7] text-[#19110b]"
+            className={`fixed inset-0 z-[70] ${panelSurfaceBg} ${panelText}`}
           >
-            <div className="flex h-[60px] items-center justify-between border-b border-[#e8e2da] px-6 lg:px-10">
+            <div className={`flex h-[60px] items-center justify-between border-b px-6 lg:px-10 ${panelBorder}`}>
               <div className="w-12" />
               <span className="text-[18px] md:text-[26px] font-medium tracking-[0.26em] md:tracking-[0.35em] whitespace-nowrap">
                 BEL AIR ONE
@@ -415,7 +432,7 @@ function Navbar() {
                 transition={{ duration: 0.55, delay: 0.08, ease: 'easeOut' }}
                 className="w-full max-w-2xl text-center"
               >
-                <p className="mb-8 text-[10px] uppercase tracking-[0.34em] text-[#8a8278]">Archives de la Maison</p>
+                <p className={`mb-8 text-[10px] uppercase tracking-[0.34em] ${panelMutedText}`}>Archives de la Maison</p>
                 <input
                   ref={searchInputRef}
                   value={searchQuery}
@@ -424,10 +441,10 @@ function Navbar() {
                     setSearchMessage('');
                   }}
                   placeholder="Nom de la pièce"
-                  className="w-full bg-transparent border-b border-[#19110b]/30 pb-5 text-center font-editorial text-3xl md:text-5xl outline-none placeholder:text-[#b8b1a7] focus:border-[#19110b] transition-colors"
+                  className={`w-full bg-transparent border-b pb-5 text-center font-editorial text-3xl outline-none transition-colors placeholder:text-current/35 focus:border-current md:text-5xl ${panelRule}`}
                   autoComplete="off"
                 />
-                <button className="mt-10 text-[10px] uppercase tracking-[0.28em] border-b border-[#19110b] pb-2 hover:opacity-60 transition-opacity">
+                <button className="mt-10 border-b border-current pb-2 text-[10px] uppercase tracking-[0.28em] hover:opacity-60 transition-opacity">
                   Rechercher
                 </button>
 
@@ -435,7 +452,7 @@ function Navbar() {
                   <motion.p
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="mt-12 font-editorial text-xl md:text-2xl text-[#6f675f]"
+                    className={`mt-12 font-editorial text-xl md:text-2xl ${firstClassPanelTheme ? 'text-[#c9a35d]/72' : 'text-[#6f675f]'}`}
                   >
                     {searchMessage}
                   </motion.p>
