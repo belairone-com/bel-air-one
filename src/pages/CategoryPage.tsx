@@ -18,7 +18,7 @@ const categoryContent: Record<CategoryKey, {
 }> = {
   'pret-a-porter': {
     title: 'Prêt-à-Porter',
-    phrase: 'Des lignes précises, pensées pour une présence silencieuse.',
+    phrase: 'Développé et réalisé à Genève. Chaque pièce reçoit le temps, l’attention et le savoir-faire qu’elle mérite.',
     products: [
       { name: 'Manteau Belvédère', price: '2 950 CHF', image: 'https://images.unsplash.com/photo-1548624313-0396c75e4b1a?q=80&w=900&auto=format&fit=crop' },
     ],
@@ -73,6 +73,11 @@ export default function CategoryPage({ category, audience = 'femme' }: { categor
           <div className="mb-14 text-center">
             <p className="text-[10px] uppercase tracking-[0.36em] text-[#8a8278]">BEL AIR ONE</p>
             <h2 className="mt-5 text-2xl md:text-4xl font-medium tracking-[0.16em] uppercase">{content.title}</h2>
+            {category === 'pret-a-porter' && (
+              <p className="mx-auto mt-8 max-w-3xl font-editorial text-xl leading-relaxed text-[#6f675f] md:text-2xl">
+                Développé et réalisé à Genève. Chaque pièce reçoit le temps, l’attention et le savoir-faire qu’elle mérite.
+              </p>
+            )}
             {category === 'maroquinerie' && (
               <p className="mx-auto mt-8 max-w-3xl font-editorial text-xl leading-relaxed text-[#6f675f] md:text-2xl">
                 Chaque création est réalisée en Italie, pièce par pièce, par des artisans spécialisés en maroquinerie.
