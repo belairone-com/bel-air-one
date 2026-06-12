@@ -26,18 +26,22 @@ const categories = [
 const jourBlancProducts = [
   {
     name: 'Malle Bel Air One',
+    code: '---J--O---',
     price: 'xx*x CHF',
   },
   {
     name: 'Robe Jour Blanc',
+    code: '--U---R--',
     price: 'x*xx CHF',
   },
   {
     name: 'Portefeuille Signature',
+    code: '---B--L---',
     price: '*xxx CHF',
   },
   {
     name: 'Veste Première',
+    code: '--A--N--C',
     price: 'xxx* CHF',
   },
 ];
@@ -144,7 +148,8 @@ export default function Home() {
             >
               <div className="h-full md:aspect-[4/5]" />
               <div className="absolute inset-x-0 bottom-0 px-2 pb-5 pt-12 text-center text-[#243346] md:px-4 md:pb-5 md:pt-16">
-                <p className="text-[11px] text-[#455568] md:text-sm">{product.price}</p>
+                <p className="text-[10px] uppercase tracking-[0.22em] text-[#455568] md:text-[11px]">{product.code}</p>
+                <p className="mt-1 text-[11px] text-[#455568] md:text-sm">{product.price}</p>
               </div>
             </motion.article>
           ))}
