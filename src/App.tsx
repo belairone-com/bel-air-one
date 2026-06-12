@@ -489,25 +489,34 @@ function Navbar() {
 }
 
 function Footer() {
+  const location = useLocation();
+  const isFirstClassFooter =
+    location.pathname === '/first-class' ||
+    (location.pathname === '/contact' && new URLSearchParams(location.search).get('theme') === 'first-class');
+  const contactPath = isFirstClassFooter ? '/contact?theme=first-class' : '/contact';
+  const headingColor = isFirstClassFooter ? 'text-[#c9a35d]/58' : 'text-white/70';
+  const bodyColor = isFirstClassFooter ? 'text-[#c9a35d]/78' : 'text-white/80';
+  const linkColor = isFirstClassFooter ? 'text-[#c9a35d] hover:text-[#c9a35d]/70' : 'text-white hover:text-white/70';
+
   return (
-    <footer className="bg-[#050505] text-white px-6 py-28 md:py-36">
+    <footer className="bg-[#050505] px-6 py-28 md:py-36">
       <div className="mx-auto max-w-xl text-center">
-        <h3 className="text-[11px] uppercase tracking-[0.32em] text-white/70 mb-12">Contact</h3>
-        <p className="font-editorial text-xl md:text-2xl text-white/80 mb-8">
+        <h3 className={`mb-12 text-[11px] uppercase tracking-[0.32em] ${headingColor}`}>Contact</h3>
+        <p className={`mb-8 font-editorial text-xl md:text-2xl ${bodyColor}`}>
           Pour toute demande privée :
         </p>
         <Link
-          to="/contact"
-          className="block text-sm md:text-base tracking-[0.12em] text-white hover:text-white/70 transition-colors mb-16"
+          to={contactPath}
+          className={`mb-16 block text-sm tracking-[0.12em] transition-colors md:text-base ${linkColor}`}
         >
           belairone.ch@gmail.com
         </Link>
-        <p className="text-[11px] uppercase tracking-[0.28em] text-white/45 mb-5">Instagram</p>
+        <p className={`mb-5 text-[11px] uppercase tracking-[0.28em] ${isFirstClassFooter ? 'text-[#c9a35d]/45' : 'text-white/45'}`}>Instagram</p>
         <a
           href="https://instagram.com/belair.one"
           target="_blank"
           rel="noreferrer"
-          className="text-sm md:text-base tracking-[0.12em] text-white hover:text-white/70 transition-colors"
+          className={`text-sm tracking-[0.12em] transition-colors md:text-base ${linkColor}`}
         >
           @belair.one
         </a>
