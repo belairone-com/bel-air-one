@@ -26,19 +26,19 @@ const categories = [
 const jourBlancProducts = [
   {
     name: 'Malle Bel Air One',
-    price: '8 900 CHF',
+    price: 'xx*x CHF',
   },
   {
     name: 'Robe Jour Blanc',
-    price: '2 400 CHF',
+    price: 'x*xx CHF',
   },
   {
     name: 'Portefeuille Signature',
-    price: '540 CHF',
+    price: '*xxx CHF',
   },
   {
     name: 'Veste Première',
-    price: '2 950 CHF',
+    price: 'xxx* CHF',
   },
 ];
 
