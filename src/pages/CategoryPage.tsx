@@ -7,22 +7,27 @@ type PretAPorterAudience = 'homme' | 'femme';
 const categoryContent: Record<CategoryKey, {
   title: string;
   phrase: string;
+  opening: string;
 }> = {
   'pret-a-porter': {
     title: 'Prêt-à-Porter',
-    phrase: "Les premières pièces seront disponibles à l'ouverture de la Maison.",
+    phrase: 'Développé et réalisé à Genève. Chaque pièce reçoit le temps, l’attention et le savoir-faire qu’elle mérite.',
+    opening: "Les premières pièces seront disponibles à l'ouverture de la Maison.",
   },
   maroquinerie: {
     title: 'Maroquinerie',
-    phrase: "Les premières pièces seront disponibles à l'ouverture de la Maison.",
+    phrase: 'Chaque création est réalisée en Italie, pièce par pièce, par des artisans spécialisés en maroquinerie.',
+    opening: "Les premières pièces seront disponibles à l'ouverture de la Maison.",
   },
   robes: {
     title: 'Robes',
-    phrase: "Les premières pièces seront disponibles à l'ouverture de la Maison.",
+    phrase: 'Des silhouettes rares, entre tension, mouvement et retenue.',
+    opening: "Les premières pièces seront disponibles à l'ouverture de la Maison.",
   },
   accessoires: {
     title: 'Accessoires',
-    phrase: "Les premières pièces seront disponibles à l'ouverture de la Maison.",
+    phrase: 'Développés entre la Suisse et l’Italie. Chaque accessoire est créé avec une attention particulière portée aux matières, aux détails et aux finitions.',
+    opening: "Les premières pièces seront disponibles à l'ouverture de la Maison.",
   },
 };
 
@@ -38,6 +43,9 @@ export default function CategoryPage({ category, audience = 'femme' }: { categor
             <h2 className="mt-5 text-2xl md:text-4xl font-medium tracking-[0.16em] uppercase">{content.title}</h2>
             <p className="mx-auto mt-8 max-w-3xl font-editorial text-xl leading-relaxed text-[#6f675f] md:text-2xl">
               {content.phrase}
+            </p>
+            <p className="mx-auto mt-8 max-w-3xl text-[11px] uppercase tracking-[0.26em] text-[#8a8278] md:text-xs">
+              {content.opening}
             </p>
             {category === 'pret-a-porter' && (
               <nav className="mt-10 flex items-center justify-center gap-6 text-[11px] uppercase tracking-[0.28em] text-[#8a8278] md:gap-8">
