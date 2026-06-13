@@ -543,11 +543,6 @@ function Navbar() {
                           title: 'Ma liste de souhaits',
                           body: 'Votre liste de souhaits est vide.',
                         },
-                        {
-                          title: 'Mes rendez-vous',
-                          body: 'Vous n’avez pas de rendez-vous à venir.',
-                          action: 'Réserver un rendez-vous',
-                        },
                       ].map((card) => (
                         <article
                           key={card.title}
