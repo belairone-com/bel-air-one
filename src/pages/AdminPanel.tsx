@@ -92,6 +92,8 @@ export default function AdminPanel() {
   const [archiveMessage, setArchiveMessage] = useState('');
   const [isSavingArchive, setIsSavingArchive] = useState(false);
   const [archiveFileUrls, setArchiveFileUrls] = useState<Record<string, string>>({});
+  const [assigningUser, setAssigningUser] = useState<{ name: string; email: string } | null>(null);
+  const [selectedArchiveId, setSelectedArchiveId] = useState('');
 
   const adminCredentials = currentUser
     ? { admin_email: currentUser.email, admin_password_hash: currentUser.passwordHash }
@@ -183,6 +185,15 @@ export default function AdminPanel() {
     setCertificateFile(null);
     setArchiveMessage('');
     setIsArchiveFormOpen(true);
+  };
+
+  const openAssignPiece = (user: { name: string; email: string }) => {
+    setAssigningUser({ name: user.name, email: user.email });
+    setSelectedArchiveId('');
+    setArchiveMessage('');
+    if (archives.length === 0) {
+      void refreshArchives();
+    }
   };
 
   const uploadFiles = async (archiveCode: string) => {
@@ -300,6 +311,48 @@ export default function AdminPanel() {
     await refreshArchives();
   };
 
+  const assignPieceToUser = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!supabase || !adminCredentials || !assigningUser) return;
+
+    const archive = archives.find((item) => item.id === selectedArchiveId);
+    if (!archive) {
+      setArchiveMessage('Veuillez sélectionner une pièce.');
+      return;
+    }
+
+    setIsSavingArchive(true);
+    setArchiveMessage('');
+
+    const { error } = await supabase.rpc('maison_archive_update', {
+      ...adminCredentials,
+      archive_id: archive.id,
+      archive_code: archive.archive_code,
+      product_name: archive.product_name,
+      season: archive.season,
+      description: archive.description,
+      owner_name: assigningUser.name,
+      owner_email: assigningUser.email,
+      archive_password_hash: '',
+      image_paths: archive.image_paths,
+      certificate_path: archive.certificate_path ?? '',
+      internal_notes: archive.internal_notes ?? '',
+      status: archive.status,
+    });
+
+    setIsSavingArchive(false);
+
+    if (error) {
+      setArchiveMessage("Impossible d'attribuer cette pièce.");
+      return;
+    }
+
+    setArchiveMessage(`Pièce attribuée à ${assigningUser.email}.`);
+    setAssigningUser(null);
+    setSelectedArchiveId('');
+    await refreshArchives();
+  };
+
   return (
     <div className="min-h-screen bg-[#f7f6f2] text-[#19110b] pt-28 px-6 pb-24">
       <motion.header
@@ -373,6 +426,12 @@ export default function AdminPanel() {
               </p>
               <div className="col-span-6 md:col-span-3 flex items-center justify-end gap-3">
                 <button
+                  onClick={() => openAssignPiece(user)}
+                  className="border border-[#19110b] px-4 py-2 text-[10px] uppercase tracking-[0.18em] hover:bg-[#19110b] hover:text-white transition-colors"
+                >
+                  Añadir pieza
+                </button>
+                <button
                   onClick={() => void (user.vip ? revokeVip(user.id) : approveVip(user.id))}
                   className="border border-[#19110b] px-4 py-2 text-[10px] uppercase tracking-[0.18em] hover:bg-[#19110b] hover:text-white transition-colors"
                 >
@@ -390,6 +449,55 @@ export default function AdminPanel() {
           ))
         )}
       </section>
+
+      {assigningUser && (
+        <section className="mx-auto mt-10 max-w-[1100px] border border-[#dfd7cc] bg-white p-6 md:p-8">
+          <div className="mb-8 flex items-start justify-between gap-6">
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.3em] text-[#8a8278]">Attribuer une pièce</p>
+              <h2 className="mt-4 text-2xl font-medium tracking-[0.12em]">{assigningUser.name}</h2>
+              <p className="mt-2 text-sm text-[#6f675f]">{assigningUser.email}</p>
+            </div>
+            <button
+              onClick={() => {
+                setAssigningUser(null);
+                setSelectedArchiveId('');
+              }}
+              className="text-[#8a8278] hover:text-[#19110b] transition-colors"
+              aria-label="Fermer"
+            >
+              <X size={20} strokeWidth={1.3} />
+            </button>
+          </div>
+
+          <form onSubmit={assignPieceToUser} className="grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
+            <label className="block">
+              <span className="text-[10px] uppercase tracking-[0.22em] text-[#8a8278]">Pièce / Archive</span>
+              <select
+                value={selectedArchiveId}
+                onChange={(event) => setSelectedArchiveId(event.target.value)}
+                required
+                className="mt-2 w-full border-b border-[#19110b]/25 bg-transparent py-3 outline-none focus:border-[#19110b]"
+              >
+                <option value="">Sélectionner une pièce</option>
+                {archives.map((archive) => (
+                  <option key={archive.id} value={archive.id}>
+                    {archive.archive_code} — {archive.product_name}
+                    {archive.owner_email ? ` — ${archive.owner_email}` : ''}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <button
+              disabled={isSavingArchive}
+              className="bg-[#19110b] px-8 py-4 text-[10px] uppercase tracking-[0.24em] text-white hover:bg-black disabled:cursor-wait disabled:opacity-60"
+            >
+              {isSavingArchive ? 'Attribution' : 'Attribuer'}
+            </button>
+          </form>
+        </section>
+      )}
 
       <section className="mx-auto mt-24 max-w-[1100px]">
         <div className="mb-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
