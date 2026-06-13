@@ -15,6 +15,16 @@ import Archives from './pages/Archives';
 import { AuthProvider, useAuth } from './auth/AuthContext';
 import AuthGate from './components/AuthGate';
 import SiteAccessGate from './components/SiteAccessGate';
+import { supabase } from './lib/supabase';
+
+type AccountPiece = {
+  archive_code: string;
+  product_name: string;
+  season: string;
+  description: string;
+  certificate_path: string | null;
+  created_at: string;
+};
 
 const pageTransitionReveals = [
   {
@@ -221,6 +231,10 @@ function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
+  const [accountView, setAccountView] = useState<'dashboard' | 'pieces'>('dashboard');
+  const [accountPieces, setAccountPieces] = useState<AccountPiece[]>([]);
+  const [isLoadingAccountPieces, setIsLoadingAccountPieces] = useState(false);
+  const [accountPiecesMessage, setAccountPiecesMessage] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [searchMessage, setSearchMessage] = useState('');
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -313,7 +327,40 @@ function Navbar() {
       return;
     }
 
+    setAccountView('dashboard');
     setIsAccountOpen(true);
+  };
+
+  const openAccountPieces = async () => {
+    setAccountView('pieces');
+    setAccountPieces([]);
+    setAccountPiecesMessage('');
+
+    if (!currentUser) return;
+
+    if (!supabase) {
+      setAccountPiecesMessage("Vos pièces ne sont pas disponibles pour le moment.");
+      return;
+    }
+
+    setIsLoadingAccountPieces(true);
+    const { data, error } = await supabase
+      .from('maison_archives')
+      .select('archive_code, product_name, season, description, certificate_path, created_at')
+      .eq('owner_email', currentUser.email)
+      .in('status', ['active', 'archived'])
+      .order('created_at', { ascending: false });
+    setIsLoadingAccountPieces(false);
+
+    if (error) {
+      setAccountPiecesMessage("Impossible de charger vos pièces pour le moment.");
+      return;
+    }
+
+    setAccountPieces((data ?? []) as AccountPiece[]);
+    if (!data || data.length === 0) {
+      setAccountPiecesMessage('Aucune pièce enregistrée à votre nom pour le moment.');
+    }
   };
 
   const handleLogout = () => {
@@ -454,7 +501,10 @@ function Navbar() {
                 BEL AIR ONE
               </span>
               <button
-                onClick={() => setIsAccountOpen(false)}
+                onClick={() => {
+                  setIsAccountOpen(false);
+                  setAccountView('dashboard');
+                }}
                 className="hover:opacity-60 transition-opacity"
                 aria-label="Fermer le compte"
               >
@@ -469,64 +519,113 @@ function Navbar() {
                 transition={{ duration: 0.55, delay: 0.08, ease: 'easeOut' }}
                 className="mx-auto w-full max-w-[1500px] text-center"
               >
-                <p className={`text-[10px] uppercase tracking-[0.34em] ${panelMutedText}`}>Mon Compte</p>
-                <h2 className="mt-8 text-2xl font-medium tracking-[0.08em] md:text-3xl">
-                  {currentUser.name}
-                </h2>
+                {accountView === 'dashboard' ? (
+                  <>
+                    <p className={`text-[10px] uppercase tracking-[0.34em] ${panelMutedText}`}>Mon Compte</p>
+                    <h2 className="mt-8 text-2xl font-medium tracking-[0.08em] md:text-3xl">
+                      {currentUser.name}
+                    </h2>
 
-                <div className="mt-16 grid gap-6 text-left md:grid-cols-2">
-                  {[
-                    {
-                      title: 'Mon profil',
-                      body: `Connecté : ${currentUser.email}`,
-                      action: 'Modifier mon profil',
-                    },
-                    {
-                      title: 'Mes pièces',
-                      body: 'Les pièces enregistrées à votre nom apparaîtront ici.',
-                      action: 'Consulter mes pièces',
-                    },
-                    {
-                      title: 'Ma liste de souhaits',
-                      body: 'Votre liste de souhaits est vide.',
-                    },
-                    {
-                      title: 'Mes rendez-vous',
-                      body: 'Vous n’avez pas de rendez-vous à venir.',
-                      action: 'Réserver un rendez-vous',
-                    },
-                  ].map((card) => (
-                    <article
-                      key={card.title}
-                      className={`flex min-h-[230px] flex-col justify-between ${
-                        firstClassPanelTheme
-                          ? 'border border-[#c9a35d]/18 bg-black'
-                          : 'border border-[#e2ded8] bg-white'
-                      }`}
+                    <div className="mt-16 grid gap-6 text-left md:grid-cols-2">
+                      {[
+                        {
+                          title: 'Mon profil',
+                          body: `Connecté : ${currentUser.email}`,
+                          action: 'Modifier mon profil',
+                        },
+                        {
+                          title: 'Mes pièces',
+                          body: 'Les pièces enregistrées à votre nom apparaîtront ici.',
+                          action: 'Consulter mes pièces',
+                          onClick: openAccountPieces,
+                        },
+                        {
+                          title: 'Ma liste de souhaits',
+                          body: 'Votre liste de souhaits est vide.',
+                        },
+                        {
+                          title: 'Mes rendez-vous',
+                          body: 'Vous n’avez pas de rendez-vous à venir.',
+                          action: 'Réserver un rendez-vous',
+                        },
+                      ].map((card) => (
+                        <article
+                          key={card.title}
+                          className={`flex min-h-[230px] flex-col justify-between ${
+                            firstClassPanelTheme
+                              ? 'border border-[#c9a35d]/18 bg-black'
+                              : 'border border-[#e2ded8] bg-white'
+                          }`}
+                        >
+                          <h3 className="border-b border-current/12 px-7 py-7 text-2xl font-light tracking-[0.02em]">
+                            {card.title}
+                          </h3>
+                          <div className="px-7 py-7">
+                            <p className={`text-base leading-relaxed ${firstClassPanelTheme ? 'text-[#c9a35d]/78' : 'text-[#342f2a]'}`}>
+                              {card.body}
+                            </p>
+                            {card.action && (
+                              <button
+                                type="button"
+                                onClick={card.onClick}
+                                className={`mt-8 w-full rounded-full py-4 text-[11px] uppercase tracking-[0.16em] transition-opacity hover:opacity-80 ${
+                                  firstClassPanelTheme
+                                    ? 'bg-[#c9a35d] text-black'
+                                    : 'bg-black text-white'
+                                }`}
+                              >
+                                {card.action}
+                              </button>
+                            )}
+                          </div>
+                        </article>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-left">
+                    <button
+                      type="button"
+                      onClick={() => setAccountView('dashboard')}
+                      className={`mb-10 text-[10px] uppercase tracking-[0.24em] ${panelMutedText} hover:opacity-70`}
                     >
-                      <h3 className="border-b border-current/12 px-7 py-7 text-2xl font-light tracking-[0.02em]">
-                        {card.title}
-                      </h3>
-                      <div className="px-7 py-7">
-                        <p className={`text-base leading-relaxed ${firstClassPanelTheme ? 'text-[#c9a35d]/78' : 'text-[#342f2a]'}`}>
-                          {card.body}
-                        </p>
-                        {card.action && (
-                          <button
-                            type="button"
-                            className={`mt-8 w-full rounded-full py-4 text-[11px] uppercase tracking-[0.16em] transition-opacity hover:opacity-80 ${
-                              firstClassPanelTheme
-                                ? 'bg-[#c9a35d] text-black'
-                                : 'bg-black text-white'
-                            }`}
-                          >
-                            {card.action}
-                          </button>
+                      Retour au compte
+                    </button>
+                    <div className={`border ${firstClassPanelTheme ? 'border-[#c9a35d]/18 bg-black' : 'border-[#e2ded8] bg-white'}`}>
+                      <h2 className="border-b border-current/12 px-7 py-8 text-3xl font-light tracking-[0.08em]">
+                        Mes pièces
+                      </h2>
+                      <div className="px-7 py-8">
+                        {isLoadingAccountPieces ? (
+                          <p className={`font-editorial text-xl ${panelMutedText}`}>Chargement des pièces.</p>
+                        ) : accountPieces.length > 0 ? (
+                          <div className="space-y-8">
+                            {accountPieces.map((piece) => (
+                              <article key={piece.archive_code} className="border-b border-current/12 pb-8 last:border-b-0 last:pb-0">
+                                <p className={`text-[10px] uppercase tracking-[0.28em] ${panelMutedText}`}>
+                                  Archive {piece.archive_code}
+                                </p>
+                                <h3 className="mt-4 text-2xl font-medium tracking-[0.1em]">
+                                  {piece.product_name}
+                                </h3>
+                                <p className={`mt-3 text-[11px] uppercase tracking-[0.22em] ${panelMutedText}`}>
+                                  {piece.season}
+                                </p>
+                                <p className={`mt-6 font-editorial text-xl leading-relaxed ${firstClassPanelTheme ? 'text-[#c9a35d]/78' : 'text-[#6f675f]'}`}>
+                                  {piece.description}
+                                </p>
+                              </article>
+                            ))}
+                          </div>
+                        ) : (
+                          <p className={`font-editorial text-xl ${firstClassPanelTheme ? 'text-[#c9a35d]/78' : 'text-[#6f675f]'}`}>
+                            {accountPiecesMessage || 'Aucune pièce enregistrée à votre nom pour le moment.'}
+                          </p>
                         )}
                       </div>
-                    </article>
-                  ))}
-                </div>
+                    </div>
+                  </div>
+                )}
 
                 <button
                   onClick={handleLogout}
