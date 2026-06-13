@@ -91,7 +91,7 @@ function PageTransitionOverlay() {
       ];
       const isFirstClassSource =
         currentUrl.pathname === '/first-class' ||
-        (currentUrl.pathname === '/contact' && currentUrl.searchParams.get('theme') === 'first-class');
+        currentUrl.searchParams.get('theme') === 'first-class';
       setIsFirstClassMenuTransition(nextUrl.pathname === '/first-class' || (isFirstClassSource && firstClassMenuPaths.includes(nextUrl.pathname)));
       isTransitioningRef.current = true;
       setIsVisible(true);
