@@ -462,35 +462,70 @@ function Navbar() {
               </button>
             </div>
 
-            <div className="flex min-h-[calc(100vh-60px)] items-center justify-center px-6 py-16">
+            <div className={`min-h-[calc(100vh-60px)] px-6 py-16 md:px-10 md:py-24 ${firstClassPanelTheme ? 'bg-black' : 'bg-[#f5f4f2]'}`}>
               <motion.section
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.55, delay: 0.08, ease: 'easeOut' }}
-                className="w-full max-w-[620px] text-center"
+                className="mx-auto w-full max-w-[1500px] text-center"
               >
                 <p className={`text-[10px] uppercase tracking-[0.34em] ${panelMutedText}`}>Mon Compte</p>
-                <h2 className="mt-8 text-3xl font-medium tracking-[0.18em] md:text-5xl">
+                <h2 className="mt-8 text-2xl font-medium tracking-[0.08em] md:text-3xl">
                   {currentUser.name}
                 </h2>
 
-                <div className={`mt-14 border-y py-10 text-left ${panelBorder}`}>
+                <div className="mt-16 grid gap-6 text-left md:grid-cols-2">
                   {[
-                    ['Nom', currentUser.name],
-                    ['Email', currentUser.email],
-                  ].map(([label, value]) => (
-                    <div key={label} className="grid grid-cols-1 gap-2 border-b border-current/10 py-5 last:border-b-0 md:grid-cols-[220px_1fr]">
-                      <p className={`text-[10px] uppercase tracking-[0.24em] ${panelMutedText}`}>{label}</p>
-                      <p className="font-editorial text-xl leading-relaxed md:text-2xl">{value}</p>
-                    </div>
+                    {
+                      title: 'Mon profil',
+                      body: `Connecté : ${currentUser.email}`,
+                      action: 'Modifier mon profil',
+                    },
+                    {
+                      title: 'Mes pièces',
+                      body: 'Les pièces enregistrées à votre nom apparaîtront ici.',
+                      action: 'Consulter mes pièces',
+                    },
+                    {
+                      title: 'Ma liste de souhaits',
+                      body: 'Votre liste de souhaits est vide.',
+                    },
+                    {
+                      title: 'Mes rendez-vous',
+                      body: 'Vous n’avez pas de rendez-vous à venir.',
+                      action: 'Réserver un rendez-vous',
+                    },
+                  ].map((card) => (
+                    <article
+                      key={card.title}
+                      className={`flex min-h-[230px] flex-col justify-between ${
+                        firstClassPanelTheme
+                          ? 'border border-[#c9a35d]/18 bg-black'
+                          : 'border border-[#e2ded8] bg-white'
+                      }`}
+                    >
+                      <h3 className="border-b border-current/12 px-7 py-7 text-2xl font-light tracking-[0.02em]">
+                        {card.title}
+                      </h3>
+                      <div className="px-7 py-7">
+                        <p className={`text-base leading-relaxed ${firstClassPanelTheme ? 'text-[#c9a35d]/78' : 'text-[#342f2a]'}`}>
+                          {card.body}
+                        </p>
+                        {card.action && (
+                          <button
+                            type="button"
+                            className={`mt-8 w-full rounded-full py-4 text-[11px] uppercase tracking-[0.16em] transition-opacity hover:opacity-80 ${
+                              firstClassPanelTheme
+                                ? 'bg-[#c9a35d] text-black'
+                                : 'bg-black text-white'
+                            }`}
+                          >
+                            {card.action}
+                          </button>
+                        )}
+                      </div>
+                    </article>
                   ))}
-                </div>
-
-                <div className={`mt-10 border-y py-10 text-center ${panelBorder}`}>
-                  <p className={`text-[10px] uppercase tracking-[0.3em] ${panelMutedText}`}>Mes pièces</p>
-                  <p className="mx-auto mt-6 max-w-md font-editorial text-xl leading-relaxed md:text-2xl">
-                    Les pièces enregistrées à votre nom apparaîtront ici.
-                  </p>
                 </div>
 
                 <button
