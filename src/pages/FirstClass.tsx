@@ -95,6 +95,12 @@ export default function FirstClass() {
             ))}
           </div>
 
+          <div className="border-t border-[#c9a35d]/18 px-0 py-24 text-center">
+            <p className="mx-auto max-w-[820px] font-editorial text-xl leading-loose text-[#c9a35d]/75 md:text-3xl">
+              Vous serez informés personnellement de chaque évolution de la Maison.
+            </p>
+          </div>
+
           <div className="mt-16 text-right">
             <p className="text-[10px] uppercase tracking-[0.3em] text-[#c9a35d]/48">
               Accès accordé à {currentUser?.name}
