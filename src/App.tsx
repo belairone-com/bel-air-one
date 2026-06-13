@@ -220,6 +220,7 @@ function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isAccountOpen, setIsAccountOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchMessage, setSearchMessage] = useState('');
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -240,13 +241,13 @@ function Navbar() {
   }, []);
 
   useEffect(() => {
-    if (isMenuOpen || isSearchOpen) {
+    if (isMenuOpen || isSearchOpen || isAccountOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
     }
     return () => { document.body.style.overflow = ''; };
-  }, [isMenuOpen, isSearchOpen]);
+  }, [isMenuOpen, isSearchOpen, isAccountOpen]);
 
   useEffect(() => {
     if (isSearchOpen) {
@@ -302,7 +303,22 @@ function Navbar() {
   };
 
   const handleAccountClick = () => {
-    if (isFirstClassPage) {
+    if (!currentUser) {
+      if (isFirstClassPage) {
+        window.sessionStorage.setItem('belairone:first-class-account-theme', '1');
+      } else {
+        window.sessionStorage.removeItem('belairone:first-class-account-theme');
+      }
+      logout();
+      return;
+    }
+
+    setIsAccountOpen(true);
+  };
+
+  const handleLogout = () => {
+    setIsAccountOpen(false);
+    if (isFirstClassTheme) {
       window.sessionStorage.setItem('belairone:first-class-account-theme', '1');
     } else {
       window.sessionStorage.removeItem('belairone:first-class-account-theme');
@@ -361,7 +377,7 @@ function Navbar() {
             <button className="text-[#8fd0ff] hover:opacity-60 transition-opacity" aria-label="Favoris">
               <Heart size={20} strokeWidth={1.3} fill="currentColor" />
             </button>
-            <button onClick={handleAccountClick} className="hover:opacity-60 transition-opacity" aria-label="Se déconnecter">
+            <button onClick={handleAccountClick} className="hover:opacity-60 transition-opacity" aria-label="Mon compte">
               <User size={20} strokeWidth={1.3} />
             </button>
           </div>
@@ -415,9 +431,75 @@ function Navbar() {
             </div>
             
             <div className={`py-8 text-center text-[11px] tracking-[0.25em] ${panelMutedText}`}>
-              <button onClick={handleAccountClick} className="hover:opacity-70 transition-opacity">
+              <button onClick={handleLogout} className="hover:opacity-70 transition-opacity">
                 SE DÉCONNECTER
               </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {isAccountOpen && currentUser && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35, ease: 'easeOut' }}
+            className={`fixed inset-0 z-[75] ${panelSurfaceBg} ${panelText}`}
+          >
+            <div className={`flex h-[60px] items-center justify-between border-b px-6 lg:px-10 ${panelBorder}`}>
+              <div className="w-12" />
+              <span className="text-[18px] font-medium tracking-[0.26em] md:text-[26px] md:tracking-[0.35em]">
+                BEL AIR ONE
+              </span>
+              <button
+                onClick={() => setIsAccountOpen(false)}
+                className="hover:opacity-60 transition-opacity"
+                aria-label="Fermer le compte"
+              >
+                <X size={24} strokeWidth={1.2} />
+              </button>
+            </div>
+
+            <div className="flex min-h-[calc(100vh-60px)] items-center justify-center px-6 py-16">
+              <motion.section
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.55, delay: 0.08, ease: 'easeOut' }}
+                className="w-full max-w-[620px] text-center"
+              >
+                <p className={`text-[10px] uppercase tracking-[0.34em] ${panelMutedText}`}>Mon Compte</p>
+                <h2 className="mt-8 text-3xl font-medium tracking-[0.18em] md:text-5xl">
+                  {currentUser.name}
+                </h2>
+
+                <div className={`mt-14 border-y py-10 text-left ${panelBorder}`}>
+                  {[
+                    ['Nom', currentUser.name],
+                    ['Email', currentUser.email],
+                    ['Type de compte', currentUser.role === 'admin' ? 'Administrateur' : 'Client'],
+                    ['Accès First Class', currentUser.role === 'admin' || currentUser.vip ? 'Accordé' : 'Non accordé'],
+                    ['Créé le', new Date(currentUser.createdAt).toLocaleDateString('fr-FR')],
+                  ].map(([label, value]) => (
+                    <div key={label} className="grid grid-cols-1 gap-2 border-b border-current/10 py-5 last:border-b-0 md:grid-cols-[220px_1fr]">
+                      <p className={`text-[10px] uppercase tracking-[0.24em] ${panelMutedText}`}>{label}</p>
+                      <p className="font-editorial text-xl leading-relaxed md:text-2xl">{value}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <button
+                  onClick={handleLogout}
+                  className={`mt-10 border px-8 py-4 text-[10px] uppercase tracking-[0.24em] transition-colors ${
+                    firstClassPanelTheme
+                      ? 'border-[#c9a35d]/60 hover:bg-[#c9a35d] hover:text-black'
+                      : 'border-[#19110b] hover:bg-[#19110b] hover:text-white'
+                  }`}
+                >
+                  Se déconnecter
+                </button>
+              </motion.section>
             </div>
           </motion.div>
         )}
