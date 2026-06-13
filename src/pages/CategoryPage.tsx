@@ -44,7 +44,7 @@ export default function CategoryPage({ category, audience = 'femme' }: { categor
             <p className="mx-auto mt-8 max-w-3xl font-editorial text-xl leading-relaxed text-[#6f675f] md:text-2xl">
               {content.phrase}
             </p>
-            <p className="mx-auto mt-8 max-w-3xl text-[11px] uppercase tracking-[0.26em] text-[#8a8278] md:text-xs">
+            <p className="mx-auto mt-16 max-w-3xl text-[11px] uppercase tracking-[0.26em] text-[#8a8278] md:mt-20 md:text-xs">
               {content.opening}
             </p>
             {category === 'pret-a-porter' && (
