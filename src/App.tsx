@@ -478,15 +478,19 @@ function Navbar() {
                   {[
                     ['Nom', currentUser.name],
                     ['Email', currentUser.email],
-                    ['Type de compte', currentUser.role === 'admin' ? 'Administrateur' : 'Client'],
-                    ['Accès First Class', currentUser.role === 'admin' || currentUser.vip ? 'Accordé' : 'Non accordé'],
-                    ['Créé le', new Date(currentUser.createdAt).toLocaleDateString('fr-FR')],
                   ].map(([label, value]) => (
                     <div key={label} className="grid grid-cols-1 gap-2 border-b border-current/10 py-5 last:border-b-0 md:grid-cols-[220px_1fr]">
                       <p className={`text-[10px] uppercase tracking-[0.24em] ${panelMutedText}`}>{label}</p>
                       <p className="font-editorial text-xl leading-relaxed md:text-2xl">{value}</p>
                     </div>
                   ))}
+                </div>
+
+                <div className={`mt-10 border-y py-10 text-center ${panelBorder}`}>
+                  <p className={`text-[10px] uppercase tracking-[0.3em] ${panelMutedText}`}>Mes pièces</p>
+                  <p className="mx-auto mt-6 max-w-md font-editorial text-xl leading-relaxed md:text-2xl">
+                    Les pièces enregistrées à votre nom apparaîtront ici.
+                  </p>
                 </div>
 
                 <button
