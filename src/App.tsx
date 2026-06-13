@@ -77,6 +77,7 @@ function PageTransitionOverlay() {
       if (nextUrl.origin !== window.location.origin || nextPath === currentPath || isTransitioningRef.current) return;
 
       const firstClassMenuPaths = [
+        '/',
         '/pret-a-porter',
         '/maroquinerie',
         '/robes',
@@ -91,7 +92,7 @@ function PageTransitionOverlay() {
       const isFirstClassSource =
         currentUrl.pathname === '/first-class' ||
         (currentUrl.pathname === '/contact' && currentUrl.searchParams.get('theme') === 'first-class');
-      setIsFirstClassMenuTransition(isFirstClassSource && firstClassMenuPaths.includes(nextUrl.pathname));
+      setIsFirstClassMenuTransition(nextUrl.pathname === '/first-class' || (isFirstClassSource && firstClassMenuPaths.includes(nextUrl.pathname)));
       isTransitioningRef.current = true;
       setIsVisible(true);
       timeoutRef.current = window.setTimeout(() => {
@@ -469,7 +470,7 @@ function Navbar() {
                   <Link 
                     to={item.to}
                     onClick={() => setIsMenuOpen(false)}
-                    className={`text-2xl md:text-3xl font-light tracking-[0.15em] hover:opacity-50 transition-opacity ${panelText}`}
+                    className={`text-2xl md:text-3xl font-light tracking-[0.15em] hover:opacity-50 transition-opacity ${item.to === '/first-class' ? 'text-[#c9a35d]' : panelText}`}
                   >
                     {item.label}
                   </Link>
