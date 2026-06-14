@@ -46,6 +46,27 @@ const pageTransitionReveals = [
   },
 ];
 const pageTransitionDuration = 4000;
+const firstClassTransitionPaths = [
+  '/',
+  '/pret-a-porter',
+  '/maroquinerie',
+  '/robes',
+  '/accessoires',
+  '/first-class',
+  '/archives',
+  '/maison',
+  '/contact',
+  '/administration',
+  '/belaironeadmin',
+];
+
+function shouldUseFirstClassTransition(nextUrl: URL, currentUrl: URL) {
+  const isFirstClassSource =
+    currentUrl.pathname === '/first-class' ||
+    currentUrl.searchParams.get('theme') === 'first-class';
+
+  return nextUrl.pathname === '/first-class' || (isFirstClassSource && firstClassTransitionPaths.includes(nextUrl.pathname));
+}
 
 function requestPageTransition(path: string) {
   window.dispatchEvent(new CustomEvent('belairone:navigate', { detail: { path } }));
@@ -64,7 +85,10 @@ function PageTransitionOverlay() {
   const timeoutRef = useRef<number | null>(null);
   const isTransitioningRef = useRef(false);
   const [isVisible, setIsVisible] = useState(true);
-  const [isFirstClassMenuTransition, setIsFirstClassMenuTransition] = useState(false);
+  const [isFirstClassMenuTransition, setIsFirstClassMenuTransition] = useState(() => {
+    const currentUrl = new URL(window.location.href);
+    return shouldUseFirstClassTransition(currentUrl, currentUrl);
+  });
 
   useEffect(() => {
     timeoutRef.current = window.setTimeout(() => {
@@ -80,23 +104,7 @@ function PageTransitionOverlay() {
 
       if (nextUrl.origin !== window.location.origin || nextPath === currentPath || isTransitioningRef.current) return;
 
-      const firstClassMenuPaths = [
-        '/',
-        '/pret-a-porter',
-        '/maroquinerie',
-        '/robes',
-        '/accessoires',
-        '/first-class',
-        '/archives',
-        '/maison',
-        '/contact',
-        '/administration',
-        '/belaironeadmin',
-      ];
-      const isFirstClassSource =
-        currentUrl.pathname === '/first-class' ||
-        currentUrl.searchParams.get('theme') === 'first-class';
-      setIsFirstClassMenuTransition(nextUrl.pathname === '/first-class' || (isFirstClassSource && firstClassMenuPaths.includes(nextUrl.pathname)));
+      setIsFirstClassMenuTransition(shouldUseFirstClassTransition(nextUrl, currentUrl));
       isTransitioningRef.current = true;
       if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
       setIsVisible(true);
