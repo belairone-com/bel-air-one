@@ -706,6 +706,7 @@ function Navbar() {
 
 function Footer() {
   const location = useLocation();
+  const isFirstClassPrivatePage = location.pathname === '/first-class';
   const isFirstClassFooter =
     location.pathname === '/first-class' ||
     (location.pathname === '/contact' && new URLSearchParams(location.search).get('theme') === 'first-class');
@@ -719,14 +720,25 @@ function Footer() {
       <div className="mx-auto max-w-xl text-center">
         <h3 className={`mb-12 text-[11px] uppercase tracking-[0.32em] ${headingColor}`}>Contact</h3>
         <p className={`mb-8 font-editorial text-xl md:text-2xl ${bodyColor}`}>
-          Pour toute demande privée :
+          {isFirstClassPrivatePage ? 'Numéro privé du fondateur :' : 'Pour toute demande privée :'}
         </p>
-        <Link
-          to={contactPath}
-          className={`mb-16 block text-sm tracking-[0.12em] transition-colors md:text-base ${linkColor}`}
-        >
-          belairone.ch@gmail.com
-        </Link>
+        {isFirstClassPrivatePage ? (
+          <a
+            href="https://wa.me/41774610706"
+            target="_blank"
+            rel="noreferrer"
+            className={`mb-16 block text-sm tracking-[0.12em] transition-colors md:text-base ${linkColor}`}
+          >
+            +41 077 461 07 06
+          </a>
+        ) : (
+          <Link
+            to={contactPath}
+            className={`mb-16 block text-sm tracking-[0.12em] transition-colors md:text-base ${linkColor}`}
+          >
+            belairone.ch@gmail.com
+          </Link>
+        )}
         <p className={`mb-5 text-[11px] uppercase tracking-[0.28em] ${isFirstClassFooter ? 'text-[#c9a35d]/45' : 'text-white/45'}`}>Instagram</p>
         <a
           href="https://instagram.com/belair.one"
