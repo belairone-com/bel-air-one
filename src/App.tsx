@@ -84,18 +84,13 @@ function PageTransitionOverlay() {
   const navigate = useNavigate();
   const timeoutRef = useRef<number | null>(null);
   const isTransitioningRef = useRef(false);
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const [isFirstClassMenuTransition, setIsFirstClassMenuTransition] = useState(() => {
     const currentUrl = new URL(window.location.href);
     return shouldUseFirstClassTransition(currentUrl, currentUrl);
   });
 
   useEffect(() => {
-    timeoutRef.current = window.setTimeout(() => {
-      setIsVisible(false);
-      timeoutRef.current = null;
-    }, pageTransitionDuration);
-
     const startTransition = (path: string) => {
       const nextUrl = new URL(path, window.location.origin);
       const currentUrl = new URL(window.location.href);
