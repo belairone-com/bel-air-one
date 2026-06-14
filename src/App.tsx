@@ -28,13 +28,13 @@ type AccountPiece = {
 const pageTransitionReveals = [
   {
     word: 'ESMERALDA',
-    image: 'https://i.ibb.co/tP1sdM9W/Captura-de-pantalla-2026-05-27-a-la-s-18-16-09-1-removebg-preview.png',
+    image: '/images/page-transition-logo.jpg',
     delay: 0,
     duration: 1.3,
   },
   {
     word: 'ESMERALDA',
-    image: 'https://i.ibb.co/tP1sdM9W/Captura-de-pantalla-2026-05-27-a-la-s-18-16-09-1-removebg-preview.png',
+    image: '/images/page-transition-logo.jpg',
     delay: 1.3,
     duration: 1.3,
   },
@@ -63,10 +63,15 @@ function PageTransitionOverlay() {
   const navigate = useNavigate();
   const timeoutRef = useRef<number | null>(null);
   const isTransitioningRef = useRef(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [isFirstClassMenuTransition, setIsFirstClassMenuTransition] = useState(false);
 
   useEffect(() => {
+    timeoutRef.current = window.setTimeout(() => {
+      setIsVisible(false);
+      timeoutRef.current = null;
+    }, pageTransitionDuration);
+
     const startTransition = (path: string) => {
       const nextUrl = new URL(path, window.location.origin);
       const currentUrl = new URL(window.location.href);
@@ -93,11 +98,13 @@ function PageTransitionOverlay() {
         currentUrl.searchParams.get('theme') === 'first-class';
       setIsFirstClassMenuTransition(nextUrl.pathname === '/first-class' || (isFirstClassSource && firstClassMenuPaths.includes(nextUrl.pathname)));
       isTransitioningRef.current = true;
+      if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
       setIsVisible(true);
       timeoutRef.current = window.setTimeout(() => {
         navigate(nextPath);
         isTransitioningRef.current = false;
         setIsVisible(false);
+        timeoutRef.current = null;
       }, pageTransitionDuration);
     };
 
