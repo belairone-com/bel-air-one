@@ -28,13 +28,13 @@ type AccountPiece = {
 const pageTransitionReveals = [
   {
     word: 'ESMERALDA',
-    image: '/images/page-transition-logo.jpg',
+    image: 'https://i.ibb.co/tP1sdM9W/Captura-de-pantalla-2026-05-27-a-la-s-18-16-09-1-removebg-preview.png',
     delay: 0,
     duration: 1.3,
   },
   {
     word: 'ESMERALDA',
-    image: '/images/page-transition-logo.jpg',
+    image: 'https://i.ibb.co/tP1sdM9W/Captura-de-pantalla-2026-05-27-a-la-s-18-16-09-1-removebg-preview.png',
     delay: 1.3,
     duration: 1.3,
   },
