@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Menu, Search, Heart, User, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -291,13 +291,16 @@ function Navbar() {
   const panelMutedText = firstClassPanelTheme ? 'text-[#c9a35d]/58' : 'text-[#8a8278]';
   const panelBorder = firstClassPanelTheme ? 'border-[#c9a35d]/18' : 'border-[#e8e8e4]';
   const panelRule = firstClassPanelTheme ? 'border-[#c9a35d]/35' : 'border-[#19110b]/30';
+  const isPauvreAccount = currentUser?.role === 'pauvre';
   const menuItems = [
     { label: 'Prêt-à-Porter', to: '/pret-a-porter' },
     { label: 'Maroquinerie', to: '/maroquinerie' },
     { label: 'Robes', to: '/robes' },
     { label: 'Accessoires', to: '/accessoires' },
-    { label: 'First Class', to: '/first-class' },
-    { label: 'Les Archives', to: '/archives' },
+    ...(!isPauvreAccount ? [
+      { label: 'First Class', to: '/first-class' },
+      { label: 'Les Archives', to: '/archives' },
+    ] : []),
     { label: 'La Maison', to: '/maison' },
     { label: 'Contact', to: firstClassContactPath },
     ...(isAdminAccount ? [{ label: 'Administration', to: '/administration' }] : []),
@@ -762,6 +765,16 @@ function Footer() {
   );
 }
 
+function ArchivesRoute() {
+  const { currentUser } = useAuth();
+
+  if (currentUser?.role === 'pauvre') {
+    return <Navigate to="/" replace />;
+  }
+
+  return <Archives />;
+}
+
 export default function App() {
   return (
     <AuthProvider>
@@ -782,7 +795,7 @@ export default function App() {
                 <Route path="/robes" element={<CategoryPage category="robes" />} />
                 <Route path="/accessoires" element={<CategoryPage category="accessoires" />} />
                 <Route path="/first-class" element={<FirstClass />} />
-                <Route path="/archives" element={<Archives />} />
+                <Route path="/archives" element={<ArchivesRoute />} />
                 <Route path="/maison" element={<Maison />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/administration" element={<AdminPanel />} />

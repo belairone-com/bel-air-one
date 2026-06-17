@@ -80,7 +80,7 @@ function storageUrl(path: string) {
 }
 
 export default function AdminPanel() {
-  const { currentUser, isAdminAccount, users, isLoadingUsers, refreshUsers, approveVip, revokeVip, deleteUser } = useAuth();
+  const { currentUser, isAdminAccount, users, isLoadingUsers, refreshUsers, approveVip, revokeVip, setPauvre, removePauvre, deleteUser } = useAuth();
   const [archives, setArchives] = useState<MaisonArchive[]>([]);
   const [isLoadingArchives, setIsLoadingArchives] = useState(false);
   const [isArchiveFormOpen, setIsArchiveFormOpen] = useState(false);
@@ -156,8 +156,9 @@ export default function AdminPanel() {
   }
 
   const members = users.filter((user) => user.role !== 'admin');
-  const vipCount = members.filter((user) => user.vip).length;
-  const pendingCount = members.length - vipCount;
+  const pauvreCount = members.filter((user) => user.role === 'pauvre').length;
+  const vipCount = members.filter((user) => user.vip && user.role !== 'pauvre').length;
+  const pendingCount = members.length - vipCount - pauvreCount;
 
   const openCreateArchive = () => {
     setEditingArchive(null);
@@ -422,21 +423,31 @@ export default function AdminPanel() {
               </div>
               <p className="col-span-3 hidden md:block text-sm text-[#6f675f]">{user.email}</p>
               <p className="col-span-2 text-sm">
-                {user.vip ? 'VIP approuvé' : 'Compte public'}
+                {user.role === 'pauvre' ? 'Compte pauvre' : user.vip ? 'VIP approuvé' : 'Compte public'}
               </p>
               <div className="col-span-6 md:col-span-3 flex items-center justify-end gap-3">
+                {user.role !== 'pauvre' && (
+                  <button
+                    onClick={() => openAssignPiece(user)}
+                    className="border border-[#19110b] px-4 py-2 text-[10px] uppercase tracking-[0.18em] hover:bg-[#19110b] hover:text-white transition-colors"
+                  >
+                    Añadir pieza
+                  </button>
+                )}
                 <button
-                  onClick={() => openAssignPiece(user)}
+                  onClick={() => void (user.role === 'pauvre' ? removePauvre(user.id) : setPauvre(user.id))}
                   className="border border-[#19110b] px-4 py-2 text-[10px] uppercase tracking-[0.18em] hover:bg-[#19110b] hover:text-white transition-colors"
                 >
-                  Añadir pieza
+                  {user.role === 'pauvre' ? 'Public' : 'Pauvre'}
                 </button>
-                <button
-                  onClick={() => void (user.vip ? revokeVip(user.id) : approveVip(user.id))}
-                  className="border border-[#19110b] px-4 py-2 text-[10px] uppercase tracking-[0.18em] hover:bg-[#19110b] hover:text-white transition-colors"
-                >
-                  {user.vip ? 'Révoquer' : 'Approuver'}
-                </button>
+                {user.role !== 'pauvre' && (
+                  <button
+                    onClick={() => void (user.vip ? revokeVip(user.id) : approveVip(user.id))}
+                    className="border border-[#19110b] px-4 py-2 text-[10px] uppercase tracking-[0.18em] hover:bg-[#19110b] hover:text-white transition-colors"
+                  >
+                    {user.vip ? 'Révoquer' : 'Approuver'}
+                  </button>
+                )}
                 <button
                   onClick={() => void deleteUser(user.id)}
                   className="p-2 text-[#8a8278] hover:text-[#19110b] transition-colors"
