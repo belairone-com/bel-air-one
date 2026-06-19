@@ -300,10 +300,10 @@ function Navbar() {
     ...(!isPauvreAccount ? [
       { label: 'First Class', to: '/first-class' },
       { label: 'Les Archives', to: '/archives' },
+      { label: 'La Maison', to: '/maison' },
+      { label: 'Contact', to: firstClassContactPath },
+      ...(isAdminAccount ? [{ label: 'Administration', to: '/administration' }] : []),
     ] : []),
-    { label: 'La Maison', to: '/maison' },
-    { label: 'Contact', to: firstClassContactPath },
-    ...(isAdminAccount ? [{ label: 'Administration', to: '/administration' }] : []),
   ];
   const searchableProducts = [
     { name: 'Malle Bel Air One', to: '/product/malle-bel-air-one' },
@@ -765,14 +765,14 @@ function Footer() {
   );
 }
 
-function ArchivesRoute() {
+function PauvreRestrictedRoute({ children }: { children: JSX.Element }) {
   const { currentUser } = useAuth();
 
   if (currentUser?.role === 'pauvre') {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/pret-a-porter" replace />;
   }
 
-  return <Archives />;
+  return children;
 }
 
 export default function App() {
@@ -787,20 +787,20 @@ export default function App() {
             <Navbar />
             <main className="flex-grow">
               <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<PauvreRestrictedRoute><Home /></PauvreRestrictedRoute>} />
                 <Route path="/pret-a-porter" element={<CategoryPage category="pret-a-porter" />} />
                 <Route path="/pret-a-porter/homme" element={<CategoryPage category="pret-a-porter" audience="homme" />} />
                 <Route path="/pret-a-porter/femme" element={<CategoryPage category="pret-a-porter" audience="femme" />} />
                 <Route path="/maroquinerie" element={<CategoryPage category="maroquinerie" />} />
                 <Route path="/robes" element={<CategoryPage category="robes" />} />
                 <Route path="/accessoires" element={<CategoryPage category="accessoires" />} />
-                <Route path="/first-class" element={<FirstClass />} />
-                <Route path="/archives" element={<ArchivesRoute />} />
-                <Route path="/maison" element={<Maison />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/administration" element={<AdminPanel />} />
-                <Route path="/belaironeadmin" element={<AdminPanel />} />
-                <Route path="/product/:id" element={<ProductDetail />} />
+                <Route path="/first-class" element={<PauvreRestrictedRoute><FirstClass /></PauvreRestrictedRoute>} />
+                <Route path="/archives" element={<PauvreRestrictedRoute><Archives /></PauvreRestrictedRoute>} />
+                <Route path="/maison" element={<PauvreRestrictedRoute><Maison /></PauvreRestrictedRoute>} />
+                <Route path="/contact" element={<PauvreRestrictedRoute><Contact /></PauvreRestrictedRoute>} />
+                <Route path="/administration" element={<PauvreRestrictedRoute><AdminPanel /></PauvreRestrictedRoute>} />
+                <Route path="/belaironeadmin" element={<PauvreRestrictedRoute><AdminPanel /></PauvreRestrictedRoute>} />
+                <Route path="/product/:id" element={<PauvreRestrictedRoute><ProductDetail /></PauvreRestrictedRoute>} />
               </Routes>
             </main>
             <Footer />
