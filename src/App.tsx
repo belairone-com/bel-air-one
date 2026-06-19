@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Menu, Search, Heart, User, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -291,19 +291,16 @@ function Navbar() {
   const panelMutedText = firstClassPanelTheme ? 'text-[#c9a35d]/58' : 'text-[#8a8278]';
   const panelBorder = firstClassPanelTheme ? 'border-[#c9a35d]/18' : 'border-[#e8e8e4]';
   const panelRule = firstClassPanelTheme ? 'border-[#c9a35d]/35' : 'border-[#19110b]/30';
-  const isPauvreAccount = currentUser?.role === 'pauvre';
   const menuItems = [
     { label: 'Prêt-à-Porter', to: '/pret-a-porter' },
     { label: 'Maroquinerie', to: '/maroquinerie' },
     { label: 'Robes', to: '/robes' },
     { label: 'Accessoires', to: '/accessoires' },
-    ...(!isPauvreAccount ? [
-      { label: 'First Class', to: '/first-class' },
-      { label: 'Les Archives', to: '/archives' },
-      { label: 'La Maison', to: '/maison' },
-      { label: 'Contact', to: firstClassContactPath },
-      ...(isAdminAccount ? [{ label: 'Administration', to: '/administration' }] : []),
-    ] : []),
+    { label: 'First Class', to: '/first-class' },
+    { label: 'Les Archives', to: '/archives' },
+    { label: 'La Maison', to: '/maison' },
+    { label: 'Contact', to: firstClassContactPath },
+    ...(isAdminAccount ? [{ label: 'Administration', to: '/administration' }] : []),
   ];
   const searchableProducts = [
     { name: 'Malle Bel Air One', to: '/product/malle-bel-air-one' },
@@ -765,16 +762,6 @@ function Footer() {
   );
 }
 
-function PauvreRestrictedRoute({ children }: { children: JSX.Element }) {
-  const { currentUser } = useAuth();
-
-  if (currentUser?.role === 'pauvre') {
-    return <Navigate to="/pret-a-porter" replace />;
-  }
-
-  return children;
-}
-
 export default function App() {
   return (
     <AuthProvider>
@@ -787,20 +774,20 @@ export default function App() {
             <Navbar />
             <main className="flex-grow">
               <Routes>
-                <Route path="/" element={<PauvreRestrictedRoute><Home /></PauvreRestrictedRoute>} />
+                <Route path="/" element={<Home />} />
                 <Route path="/pret-a-porter" element={<CategoryPage category="pret-a-porter" />} />
                 <Route path="/pret-a-porter/homme" element={<CategoryPage category="pret-a-porter" audience="homme" />} />
                 <Route path="/pret-a-porter/femme" element={<CategoryPage category="pret-a-porter" audience="femme" />} />
                 <Route path="/maroquinerie" element={<CategoryPage category="maroquinerie" />} />
                 <Route path="/robes" element={<CategoryPage category="robes" />} />
                 <Route path="/accessoires" element={<CategoryPage category="accessoires" />} />
-                <Route path="/first-class" element={<PauvreRestrictedRoute><FirstClass /></PauvreRestrictedRoute>} />
-                <Route path="/archives" element={<PauvreRestrictedRoute><Archives /></PauvreRestrictedRoute>} />
-                <Route path="/maison" element={<PauvreRestrictedRoute><Maison /></PauvreRestrictedRoute>} />
-                <Route path="/contact" element={<PauvreRestrictedRoute><Contact /></PauvreRestrictedRoute>} />
-                <Route path="/administration" element={<PauvreRestrictedRoute><AdminPanel /></PauvreRestrictedRoute>} />
-                <Route path="/belaironeadmin" element={<PauvreRestrictedRoute><AdminPanel /></PauvreRestrictedRoute>} />
-                <Route path="/product/:id" element={<PauvreRestrictedRoute><ProductDetail /></PauvreRestrictedRoute>} />
+                <Route path="/first-class" element={<FirstClass />} />
+                <Route path="/archives" element={<Archives />} />
+                <Route path="/maison" element={<Maison />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/administration" element={<AdminPanel />} />
+                <Route path="/belaironeadmin" element={<AdminPanel />} />
+                <Route path="/product/:id" element={<ProductDetail />} />
               </Routes>
             </main>
             <Footer />
